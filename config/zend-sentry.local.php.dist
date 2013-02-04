@@ -1,0 +1,20 @@
+<?php
+/**
+ * ZendSentry Configuration
+ *
+ * If you have a ./config/autoload/ directory set up for your project, you can
+ * drop this config file in it, remove the .dist extension add your configuration details.
+ */
+$settings = array(
+    /**
+     * Your Sentry API key
+     */
+    'sentry_api_key' => '',
+);
+
+/**
+ * You do not need to edit below this line
+ */
+return array(
+    'zend-sentry' => $settings,
+);

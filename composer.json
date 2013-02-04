@@ -1,0 +1,21 @@
+{
+    "name": "cloud-solutions/zend-sentry",
+    "description": "Provides a ZF2 raven log writter and a couple of convenience plugins to sends your logs to the Sentry service.",
+    "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
+    "homepage": "",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Markus Hausammann",
+            "email": "mh@cloud-solutions.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "raven/raven": "0.4.0"
+    },
+    "autoload": {
+        "psr-0": {"ZendSentry": "src/"}
+    }
+}

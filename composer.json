@@ -16,6 +16,11 @@
         "raven/raven": "0.4.0"
     },
     "autoload": {
-        "psr-0": {"ZendSentry": "src/"}
+        "psr-0": {
+            "ZendSentry": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }

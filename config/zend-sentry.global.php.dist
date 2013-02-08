@@ -1,0 +1,25 @@
+<?php
+/**
+ * ZendSentry Global Configuration
+ *
+ * If you have a ./config/autoload/ directory set up for your project, you can
+ * drop this config file in it, remove the .dist extension add your configuration details.
+ */
+$settings = array(
+    /**
+     * Register the Sentry logger as PHP error handler
+     */
+    'handle-errors' => true,
+
+    /**
+     * Register the Sentry logger as PHP exception handler
+     */
+    'handle-exceptions' => true,
+);
+
+/**
+ * You do not need to edit below this line
+ */
+return array(
+    'zend-sentry' => $settings,
+);

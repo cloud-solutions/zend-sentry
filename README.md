@@ -14,6 +14,11 @@ It is a module that builds the bridge between your Zend Framework 2 application 
 easy to setup. Require it with composer, copy the config files into your config/autoload folder, add your Sentry API
 key to the local config file and you're good to go.
 
+Current features:
+* log exceptions to Sentry
+* log PHP errors to Sentry
+* log anything to Sentry by triggering a registered log listener
+
 #Installation
 
 This module is available on [Packagist](https://packagist.org/packages/cloud-solutions/zend-sentry).

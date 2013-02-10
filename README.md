@@ -41,7 +41,7 @@ That's it. There's nothing more you need to do, everything works at that stage, 
 #Usage
 
 Again, you don't need to write a single line of code to make this work. The default settings will make sure Sentry
-is registered as both error and exception handler, try it by triggering and error or throwing around some exceptions. 
+is registered as both error and exception handler, [try it](#testing) by triggering and error or throwing around some exceptions. 
 You should instantly see them in your Sentry dashboard.
 
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from
@@ -98,7 +98,7 @@ Just for the record, a copy of the actual global configuration options:
      */
     'handle-javascript-errors' => true,
     
-#Try it
+#<a id="testing">Try it
 A few ideas how to try the different features from a Controller:
 
     // Custom log entry

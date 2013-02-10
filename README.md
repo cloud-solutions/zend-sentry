@@ -36,12 +36,12 @@ Then copy `zend-sentry.global.php.dist` to the same place, also removing `.dist`
 
 Add `ZendSentry` to the modules array in your `application.config.php`, preferably as the first module. 
 
-That's it. There's nothing more you need to do, everything works at that stage, [try it](#try it). Happy logging!
+That's it. There's nothing more you need to do, everything works at that stage, [try it](#try-it). Happy logging!
 
 #Usage
 
 Again, you don't need to write a single line of code to make this work. The default settings will make sure Sentry
-is registered as both error and exception handler, [try it](#try it) by triggering and error or throwing around some exceptions. 
+is registered as both error and exception handler, [try it](#try-it) by triggering and error or throwing around some exceptions. 
 You should instantly see them in your Sentry dashboard.
 
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from

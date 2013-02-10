@@ -7,7 +7,7 @@
  *
  * @package    ZendSentry\ZendSentry
  * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2011, cloud solutions OÜ
+ * @copyright  Copyright (c) 2013, cloud solutions OÜ
  */
 
 namespace ZendSentry;

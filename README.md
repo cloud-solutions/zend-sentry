@@ -3,7 +3,9 @@ ZendSentry
 
 A Zend Framework 2 module that lets you log to the Sentry service.
 
-**Caution**: This is just pre-beta. It works but don't take my word for it :) Anyways, it's harmless, so just try it...
+ZendSentry is released under the New BSD License.
+
+The current version of ZendSentry is `0.1.0`. We consider it a beta, ready to use and improve.
 
 ###What's Sentry?
 [Sentry](https://www.getsentry.com/welcome/) is an online service to which you can log anything including your 
@@ -11,7 +13,7 @@ exceptions and errors. Sentry creates nice reports in real time and aggregates y
 
 ###What's ZendSentry
 It is a module that builds the bridge between your Zend Framework 2 application and the Sentry service. It's extremely
-easy to setup and does a lot of things without a line of code out-of-the-box.
+easy to setup and does a lot of things out-of-the-box.
 
 Current features:
 * log PHP exceptions to Sentry

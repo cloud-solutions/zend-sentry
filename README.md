@@ -44,7 +44,9 @@ That's it. There's nothing more you need to do, everything works at that stage, 
 
 Again, you don't need to write a single line of code to make this work. The default settings will make sure Sentry
 is registered as both error and exception handler, [try it](#try-it) by triggering and error or throwing around some 
-exceptions. You should instantly see them in your Sentry dashboard.
+exceptions. You should instantly see them in your Sentry dashboard. ZendSentry also packages its own ExceptionStrategy 
+to make sure, exceptions ZF would otherwise intercept, are logged. 
+
 
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from
 anywhere in your application. These will be logged using the `Zend\Log\Logger` with a Sentry writter provided by 

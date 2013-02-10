@@ -4,7 +4,7 @@
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
     "homepage": "",
     "type": "library",
-    "license": "MIT",
+    "license": "New BSD License",
     "authors": [
         {
             "name": "Markus Hausammann",

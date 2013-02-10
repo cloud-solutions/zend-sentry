@@ -57,12 +57,17 @@ class Module
 
         // If ZendSentry is configured to log errors, register it as error handler
         if ($this->config['zend-sentry']['handle-errors']) {
-            $this->zendSentry->registerErrorHandler();
+            $this->zendSentry->registerErrorHandler($this->config['zend-sentry']['call-existing-error-handler']);
         }
 
         // If ZendSentry is configured to log shutdown errors, register it
         if ($this->config['zend-sentry']['handle-shutdown-errors']) {
             $this->zendSentry->registerShutdownFunction();
+        }
+
+        // If ZendSentry is configured to log Javascript errors, add needed scripts to the view
+        if ($this->config['zend-sentry']['handle-javascript-errors']) {
+            $this->setupJavascriptLogging($event);
         }
 
     }
@@ -113,7 +118,7 @@ class Module
     private function setupExceptionLogging(MvcEvent $event)
     {
         // Register Sentry as exception handler for exception that bubble up to the top
-        $this->zendSentry->registerExceptionHandler();
+        $this->zendSentry->registerExceptionHandler($this->config['zend-sentry']['call-existing-exception-handler']);
 
         // Replace the default ExceptionStrategy with ZendSentry's strategy
         /** @var $exceptionStrategy ExceptionStrategy */
@@ -130,5 +135,35 @@ class Module
             $exception = $event->getParam('exception');
             $ravenClient->captureException($exception);
         });
+    }
+
+    /**
+     * Adds the necessary javascript, tries to prepend
+     *
+     * @param MvcEvent $event
+     */
+    private function setupJavascriptLogging(MvcEvent $event)
+    {
+        $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
+        $viewHelper->offsetSetFile(0, '//d3nslu0hdya83q.cloudfront.net/dist/1.0/raven.min.js');
+        $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry_api_key']);
+        $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
+    }
+
+    /**
+     * @param string $key
+     * @return string $publicKey
+     */
+    private function convertKeyToPublic($key)
+    {
+        // Find private part
+        $start = strpos($key, ':', 6);
+        $end = strpos($key, '@');
+        $privatePart = substr($key, $start, $end - $start);
+
+        // Replace it with an empty string
+        $publicKey = str_replace($privatePart, '', $key);
+
+        return $publicKey;
     }
 }

@@ -12,9 +12,9 @@ $settings = array(
     'handle-errors' => true,
 
     /**
-     * Register the Sentry logger as PHP exception handler
+     * Should the previously registered error handler be called as well
      */
-    'handle-exceptions' => true,
+    'call-existing-error-handler' => true,
 
    /**
      * Register Sentry as shutdown error handler
@@ -22,9 +22,24 @@ $settings = array(
     'handle-shutdown-errors' => true,
 
     /**
+     * Register the Sentry logger as PHP exception handler
+     */
+    'handle-exceptions' => true,
+
+    /**
+     * Should the previously registered exception handler be called as well
+     */
+    'call-existing-exception-handler' => true,
+
+    /**
      * Should exceptions be displayed on the screen?
      */
-    'display-exceptions' => true,
+    'display-exceptions' => false,
+
+    /**
+     * Should Sentry also log javascript errors?
+     */
+    'handle-javascript-errors' => true,
 );
 
 /**

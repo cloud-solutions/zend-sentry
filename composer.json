@@ -1,8 +1,8 @@
 {
     "name": "cloud-solutions/zend-sentry",
-    "description": "Provides a ZF2 raven log writter and a couple of convenience plugins to sends your logs to the Sentry service.",
+    "description": "A Zend Framework 2 module that lets you log to the Sentry service.",
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
-    "homepage": "",
+    "homepage": "https://github.com/cloud-solutions/zend-sentry",
     "type": "library",
     "license": "New BSD License",
     "authors": [

@@ -41,8 +41,8 @@ That's it. There's nothing more you need to do, everything works at that stage, 
 #Usage
 
 Again, you don't need to write a single line of code to make this work. The default settings will make sure Sentry
-is registered as both error and exception handler, [try it](#try-it) by triggering and error or throwing around some exceptions. 
-You should instantly see them in your Sentry dashboard.
+is registered as both error and exception handler, [try it](#try-it) by triggering and error or throwing around some 
+exceptions. You should instantly see them in your Sentry dashboard.
 
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from
 anywhere in your application. These will be logged using the `Zend\Log\Logger` with a Sentry writter provided by 
@@ -100,9 +100,6 @@ Just for the record, a copy of the actual global configuration options:
     
 #Try it
 A few ideas how to try the different features from a Controller:
-
-    // Custom log entry
-    // $this->getEventManager()->trigger('log', $this, array('priority' => \Zend\Log\Logger::INFO, 'message' => 'A blue entry to test info logging.'));
     
     // Test logging of PHP errors
     // trigger_error('can I trigger an error from a controller');
@@ -111,4 +108,5 @@ A few ideas how to try the different features from a Controller:
     // throw new \Exception('Some exception gets logged.');
     
     // Throw a javascript error and see it logged
-    // $headScript = $this->getServiceLocator()->get('viewhelpermanager')->get('headscript')->appendScript("throw new Error('A javascript error should be logged.');");
+    // $headScript = $this->getServiceLocator()->get('viewhelpermanager')->get('headscript')
+                          ->appendScript("throw new Error('A javascript error should be logged.');");

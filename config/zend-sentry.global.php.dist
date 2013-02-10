@@ -15,6 +15,16 @@ $settings = array(
      * Register the Sentry logger as PHP exception handler
      */
     'handle-exceptions' => true,
+
+   /**
+     * Register Sentry as shutdown error handler
+     */
+    'handle-shutdown-errors' => true,
+
+    /**
+     * Should exceptions be displayed on the screen?
+     */
+    'display-exceptions' => true,
 );
 
 /**

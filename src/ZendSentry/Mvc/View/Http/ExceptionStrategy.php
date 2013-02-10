@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * cloud solutions ZendSentry
+ *
+ * This source file is part of the cloud solutions ZendSentry package
+ *
+ * @package    ZendSentry\Mvc\View\Http\ExceptionStrategy
+ * @license    New BSD License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2011, cloud solutions OÜ
+ */
+
 namespace ZendSentry\Mvc\View\Http;
 
 use Zend\EventManager\EventManagerInterface;
@@ -13,6 +23,8 @@ use Zend\View\Model\ViewModel;
 /**
  * For the moment, this is just an augmented copy of the default ZF ExceptionStrategy
  * This is on purpose despite the duplication of code until the module stabilizes and it's clear what need exactly
+ *
+ * @package    ZendSentry\Mvc\View\Http\ExceptionStrategy
  */
 class ExceptionStrategy implements ListenerAggregateInterface
 {

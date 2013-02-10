@@ -1,10 +1,23 @@
 <?php
 
+/**
+ * cloud solutions ZendSentry
+ *
+ * This source file is part of the cloud solutions ZendSentry package
+ *
+ * @package    ZendSentry\ZendSentry
+ * @license    New BSD License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2011, cloud solutions OÜ
+ */
+
 namespace ZendSentry;
 
 use Raven_Client as RavenClient;
 use Raven_ErrorHandler as RavenErrorHandler;
 
+/**
+ * @package    ZendSentry\ZendSentry
+ */
 class ZendSentry
 {
     /**

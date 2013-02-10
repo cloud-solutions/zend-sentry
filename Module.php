@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * cloud solutions ZendSentry
+ *
+ * This source file is part of the cloud solutions ZendSentry package
+ *
+ * @package    ZendSentry\Module
+ * @license    New BSD License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2011, cloud solutions OÜ
+ */
+
 namespace ZendSentry;
 
 use Zend\EventManager\EventManager;
@@ -11,6 +21,9 @@ use Zend\Log\Logger;
 use ZendSentry\Log\Writer\Sentry;
 use ZendSentry\ZendSentry;
 
+/*
+ * @package    ZendSentry\Module
+ */
 class Module
 {
     /**

@@ -12,11 +12,11 @@ $settings = array(
     'handle-errors' => true,
 
     /**
-     * Should the previously registered error handler be called as well
+     * Should the previously registered error handler be called as well?
      */
     'call-existing-error-handler' => true,
 
-   /**
+    /**
      * Register Sentry as shutdown error handler
      */
     'handle-shutdown-errors' => true,
@@ -27,7 +27,7 @@ $settings = array(
     'handle-exceptions' => true,
 
     /**
-     * Should the previously registered exception handler be called as well
+     * Should the previously registered exception handler be called as well?
      */
     'call-existing-exception-handler' => true,
 

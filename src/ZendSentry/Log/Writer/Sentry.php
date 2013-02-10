@@ -1,13 +1,24 @@
 <?php
+
 /**
- * Sentry Writer for the Zend Framework Logger
+ * cloud solutions ZendSentry
+ *
+ * This source file is part of the cloud solutions ZendSentry package
+ *
+ * @package    ZendSentry\Log\Wrier\Sentry
+ * @license    New BSD License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2011, cloud solutions OÜ
  */
+
 namespace ZendSentry\Log\Writer;
 
 use Zend\Log\Writer\AbstractWriter;
 use Zend\Log\Logger;
 use Raven_Client as Raven;
 
+/**
+ * @package    ZendSentry\Log\Wrier\Sentry
+ */
 class Sentry extends AbstractWriter
 {
     /**

@@ -111,4 +111,4 @@ A few ideas how to try the different features from a Controller:
     // throw new \Exception('Some exception gets logged.');
     
     // Throw a javascript error and see it logged
-    // $headScript = $this->getServiceLocator()->get('viewhelpermanager')->get('headscript')->appendScript("throw new Error('new trial');");
+    // $headScript = $this->getServiceLocator()->get('viewhelpermanager')->get('headscript')->appendScript("throw new Error('A javascript error should be logged.');");

@@ -98,7 +98,7 @@ Just for the record, a copy of the actual global configuration options:
      */
     'handle-javascript-errors' => true,
     
-#<a id="testing">Try it
+#Try it
 A few ideas how to try the different features from a Controller:
 
     // Custom log entry

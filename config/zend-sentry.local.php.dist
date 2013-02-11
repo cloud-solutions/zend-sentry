@@ -9,7 +9,7 @@ $settings = array(
     /**
      * Your Sentry API key
      */
-    'sentry_api_key' => '',
+    'sentry-api-key' => '',
 );
 
 /**

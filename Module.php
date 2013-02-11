@@ -53,7 +53,7 @@ class Module
     {
         // Setup RavenClient (provided by Sentry) and Sentry (provided by this module)
         $this->config = $event->getApplication()->getServiceManager()->get('Config');
-        $sentryApiKey = $this->config['zend-sentry']['sentry_api_key'];
+        $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
         $this->ravenClient = new Raven($sentryApiKey);
         $this->zendSentry = new ZendSentry($this->ravenClient);
 
@@ -159,7 +159,7 @@ class Module
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
         $viewHelper->offsetSetFile(0, '//d3nslu0hdya83q.cloudfront.net/dist/1.0/raven.min.js');
-        $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry_api_key']);
+        $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
     }
 

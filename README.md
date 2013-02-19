@@ -5,7 +5,7 @@ A Zend Framework 2 module that lets you log to the Sentry service.
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `0.1.1`. We consider it a beta, ready to use and improve.
+The current version of ZendSentry is `0.1.2`. We consider it a good beta, we're using it in production.
 
 ###What's Sentry?
 [Sentry](https://www.getsentry.com/welcome/) is an online service to which you can log anything including your 
@@ -28,7 +28,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "0.1.1"
+            "cloud-solutions/zend-sentry": "0.1.2"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

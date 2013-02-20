@@ -1,6 +1,3 @@
-ZendSentry
-===========
-
 A Zend Framework 2 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
 ZendSentry is released under the New BSD License.

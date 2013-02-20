@@ -7,6 +7,7 @@ The current version of ZendSentry is `0.1.2`. We consider it a good beta, we're 
 #Important Changes
 - 0.1.2: contains a critical dependency upgrade, the raven library used curl methods that are not yet available 
   in many linux distributions. If you experience problems with curl, upgrade!
+- 0.1.1: do NOT use it, the raven dependency doesn't exist.
 
 #Introduction
 

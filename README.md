@@ -1,17 +1,23 @@
 ZendSentry
 ===========
 
-A Zend Framework 2 module that lets you log to the Sentry service.
+A Zend Framework 2 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
 ZendSentry is released under the New BSD License.
 
 The current version of ZendSentry is `0.1.2`. We consider it a good beta, we're using it in production.
 
-###What's Sentry?
+#Important Changes
+- 0.1.2: contains a critical dependency upgrade, the raven library used curl methods that are not yet available 
+  in many linux distributions. If you experience problems with curl, upgrade!
+
+#Introduction
+
+##What's Sentry?
 [Sentry](https://www.getsentry.com/welcome/) is an online service to which you can log anything including your 
 exceptions and errors. Sentry creates nice reports in real time and aggregates your logged data for you.
 
-###What's ZendSentry
+##What's ZendSentry
 It is a module that builds the bridge between your Zend Framework 2 application and the Sentry service. It's extremely
 easy to setup and does a lot of things out-of-the-box.
 

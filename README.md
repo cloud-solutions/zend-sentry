@@ -2,9 +2,10 @@ A Zend Framework 2 module that lets you log exceptions, errors or whatever you w
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `0.1.2`. We consider it a good beta, we're using it in production.
+The current version of ZendSentry is `0.2.0`. We consider it a good beta, we're using it in production.
 
 #Important Changes
+- 0.2.0: added master switch to turn everything on/off, log context can be passed as object or string (new)
 - 0.1.2: contains a critical dependency upgrade, the raven library used curl methods that are not yet available 
   in many linux distributions. If you experience problems with curl, upgrade!
 - 0.1.1: do NOT use it, the raven dependency doesn't exist.
@@ -32,7 +33,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "0.1.2"
+            "cloud-solutions/zend-sentry": "0.2.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -60,17 +61,27 @@ In a controller, you may do:
 
     $this->getEventManager()->trigger('log', $this, array(
         'priority' => \Zend\Log\Logger::INFO, 
-        'message' => 'if this works, I am the hero of the night'
+        'message' => 'I am a message and I have been logged'
     ));
 
-Make sure to pass `"log"` as the first parameter and `$this` as second parameter. As the third parameter, 
+Make sure to pass `"log"` as the first parameter and `$this` **or** a custom context string as second parameter. 
+Keep this consistent as Sentry will use this for grouping your log entries. As the third parameter, 
 you want to pass an array with a priority key and a message key. It's best to use the priorities provided 
 by the framework. They will be mapped onto Sentry's own priorities.
 
 #Configuration options
 
 Just for the record, a copy of the actual global configuration options:
+    /**
+     * Turn ZendSentry off or on as a whole package
+     */
+    'use-module' => true,
 
+    /**
+     * Attach a generic logger event listener so you can log custom messages from anywhere in your app
+     */
+    'attach-log-listener' => true,
+    
     /**
      * Register the Sentry logger as PHP error handler
      */

@@ -53,6 +53,11 @@ class Module
     {
         // Setup RavenClient (provided by Sentry) and Sentry (provided by this module)
         $this->config = $event->getApplication()->getServiceManager()->get('Config');
+
+        if (!$this->config['zend-sentry']['use-module']) {
+            return;
+        }
+
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
         $this->ravenClient = new Raven($sentryApiKey);
         $this->zendSentry = new ZendSentry($this->ravenClient);
@@ -60,8 +65,10 @@ class Module
         // Get the eventManager and set it as a member for convenience
         $this->eventManager = $event->getApplication()->getEventManager();
 
-        // Setup the possibility to send custom logs to Sentry
-        $this->setupBasicLogging($event);
+        // If ZendSentry is configured to use the custom logger, attach the listener
+        if ($this->config['zend-sentry']['attach-log-listener']) {
+            $this->setupBasicLogging($event);
+        }
 
         // If ZendSentry is configured to log exceptions, a few things need to be set up
         if ($this->config['zend-sentry']['handle-exceptions']) {
@@ -81,6 +88,11 @@ class Module
         // If ZendSentry is configured to log Javascript errors, add needed scripts to the view
         if ($this->config['zend-sentry']['handle-javascript-errors']) {
             $this->setupJavascriptLogging($event);
+        }
+
+        // If ZendSentry is configured to log slow queries, register the respective plugin
+        if ($this->config['zend-sentry']['log-slow-queries']) {
+            $this->setupSlowQueryLogging($event);
         }
 
     }
@@ -120,6 +132,27 @@ class Module
             $message  = sprintf('%s: %s', $target, $message);
             $logger->log($priority, $message);
         }, 2);
+    }
+
+    /**
+     * Log slow queries to Sentry
+     *
+     * @param MvcEvent $event
+     * @todo implement
+     */
+    private function setupSlowQueryLogging(MvcEvent $event)
+    {
+        // Setup the Zend Logger with our Sentry Writer
+        $logger      = new Logger;
+        $writer      = new Sentry($this->ravenClient);
+        $logger->addWriter($writer);
+
+        // Get the shared event manager and attach a listener to the finish event
+        $sharedManager = $this->eventManager->getSharedManager();
+
+        $sharedManager->attach('*', 'finish', function($event) use ($logger) {
+            $logger->log(7, 'Logging of slow queries with ZendSentry is not implemented yet, you want to turn it off!');
+        });
     }
 
     /**

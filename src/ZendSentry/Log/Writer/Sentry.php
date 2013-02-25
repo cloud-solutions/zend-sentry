@@ -5,7 +5,7 @@
  *
  * This source file is part of the cloud solutions ZendSentry package
  *
- * @package    ZendSentry\Log\Wrier\Sentry
+ * @package    ZendSentry\Log\Writer\Sentry
  * @license    New BSD License {@link /docs/LICENSE}
  * @copyright  Copyright (c) 2013, cloud solutions OÜ
  */

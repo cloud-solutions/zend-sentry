@@ -126,7 +126,11 @@ class Module
 
         $sharedManager->attach('*', 'log', function($event) use ($logger) {
             /** @var $event MvcEvent */
-            $target   = get_class($event->getTarget());
+            if (is_object($event->getTarget())) {
+                $target   = get_class($event->getTarget());
+            } else {
+                $target = (string) $event->getTarget();
+            }
             $message  = $event->getParam('message', 'No message provided');
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);

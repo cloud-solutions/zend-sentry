@@ -136,9 +136,6 @@ class ExceptionStrategy implements ListenerAggregateInterface
             return;
         }
 
-        // Log exception to sentry by triggering an exception event
-        $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
-
         // Proceed to showing an error page with or without exception
         switch ($error) {
             case Application::ERROR_CONTROLLER_NOT_FOUND:
@@ -149,6 +146,9 @@ class ExceptionStrategy implements ListenerAggregateInterface
 
             case Application::ERROR_EXCEPTION:
             default:
+                // Log exception to sentry by triggering an exception event
+                $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
+
                 $model = new ViewModel(array(
                     'message'            => 'Oh no. Something went wrong, but we have been notified.',
                     'exception'          => $e->getParam('exception'),

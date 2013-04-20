@@ -73,6 +73,7 @@ by the framework. They will be mapped onto Sentry's own priorities.
 #Configuration options
 
 Just for the record, a copy of the actual global configuration options:
+
     /**
      * Turn ZendSentry off or on as a whole package
      */

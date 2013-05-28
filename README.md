@@ -5,8 +5,8 @@ ZendSentry is released under the New BSD License.
 The current version of ZendSentry is `0.2.2`. We consider it a good beta, we've been using it in production for a couple months.
 
 #Important Changes
-- 0.2.2: adjusted ExceptionStrategy for use with cli (Mateusz Mirosławski)
-- 0.2.1: bug fix release
+- 0.2.2: adjusted ExceptionStrategy for use with cli (credits to Mateusz Mirosławski)
+- 0.2.1: bug fix release (partial credits to Paweł Skotnicki)
 - 0.2.0: added master switch to turn everything on/off, log context can be passed as object or string (new)
 - 0.1.2: contains a critical dependency upgrade, the raven library used curl methods that are not yet available 
   in many linux distributions. If you experience problems with curl, upgrade!

@@ -14,7 +14,8 @@ namespace ZendSentry;
 
 use Zend\EventManager\EventManager;
 use Zend\Mvc\MvcEvent;
-use ZendSentry\Mvc\View\Http\ExceptionStrategy as SentryStrategy;
+use ZendSentry\Mvc\View\Http\ExceptionStrategy as SentryHttpStrategy;
+use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
 use Zend\Mvc\View\Http\ExceptionStrategy;
 use Raven_Client as Raven;
 use Zend\Log\Logger;
@@ -174,7 +175,8 @@ class Module
         /** @var $exceptionStrategy ExceptionStrategy */
         $exceptionStrategy = $event->getApplication()->getServiceManager()->get('ViewManager')->getExceptionStrategy();
         $exceptionStrategy->detach($this->eventManager);
-        $exceptionStrategy = new SentryStrategy;
+        // Check if script is running in console
+        $exceptionStrategy = (PHP_SAPI == 'cli')?(new SentryConsoleStrategy()):(new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
 

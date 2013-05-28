@@ -15,7 +15,6 @@ namespace ZendSentry\Mvc\View\Http;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Http\Response as HttpResponse;
-use Zend\Console\Response as ConsoleResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface as Response;
@@ -160,24 +159,13 @@ class ExceptionStrategy implements ListenerAggregateInterface
 
                 $response = $e->getResponse();
                 if (!$response) {
-                    // Check if script is running in console
-                    if (PHP_SAPI == 'cli') {
-                        $response = new ConsoleResponse();
-                        $response->setErrorLevel(1);
-                        $e->setResponse($response);
-                    } else {
-                        $response = new HttpResponse();
-                        $response->setStatusCode(500);
-                        $e->setResponse($response);
-                    }
+                    $response = new HttpResponse();
+                    $response->setStatusCode(500);
+                    $e->setResponse($response);
                 } else {
-                    if ($response instanceof ConsoleResponse) {
-                        $response->setErrorLevel(1);
-                    } else {
-                        $statusCode = $response->getStatusCode();
-                        if ($statusCode === 200) {
-                            $response->setStatusCode(500);
-                        }
+                    $statusCode = $response->getStatusCode();
+                    if ($statusCode === 200) {
+                        $response->setStatusCode(500);
                     }
                 }
 

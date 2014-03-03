@@ -2,9 +2,10 @@ A Zend Framework 2 module that lets you log exceptions, errors or whatever you w
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.0.1`.
+The current version of ZendSentry is `1.1.0`.
 
 #Important Changes
+- 1.1.0: updated raven dependency to latest (0.8.0), upgrade is recommended
 - 1.0.1: updated raven dependency to latest (0.7.1), important if you run pre 7.16.2 curl
 - 1.0.0: updated raven depencency to latest (0.7.0), first stable release (has been very stable)
 - 0.3.1: dedicated CLI ExceptionStrategy (credits to Mateusz Mirosławski)
@@ -32,7 +33,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.0.1"
+            "cloud-solutions/zend-sentry": "1.1.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

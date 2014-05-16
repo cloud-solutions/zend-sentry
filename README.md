@@ -5,7 +5,7 @@ ZendSentry is released under the New BSD License.
 The current version of ZendSentry is `1.2.0`.
 
 #Important Changes
-- 1.2.0: every logging action returns the Sentry event_id, Raven is registered as Service
+- 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
 - 1.1.0: updated raven dependency to latest (0.8.0), upgrade is recommended
 - 1.0.1: updated raven dependency to latest (0.7.1), important if you run pre 7.16.2 curl
 - 1.0.0: updated raven depencency to latest (0.7.0), first stable release (has been very stable)
@@ -49,16 +49,16 @@ Add `ZendSentry` to the modules array in your `application.config.php`, preferab
 
 That's it. There's nothing more you need to do, everything works at that stage, [try it](#try-it). Happy logging!
 
-#Usage
+#Basic Automatic Usage
 
 Again, you don't need to write a single line of code to make this work. The default settings will make sure Sentry
 is registered as both error and exception handler, [try it](#try-it) by triggering and error or throwing around some 
 exceptions. You should instantly see them in your Sentry dashboard. ZendSentry also packages its own ExceptionStrategies
 to make sure, exceptions ZF would otherwise intercept, are logged.
 
+#Manual Usage
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from
-anywhere in your application. These will be logged using the `Zend\Log\Logger` with a Sentry writter provided by 
-this mdule.
+anywhere in your application.
 
 In a controller, you may do:
 
@@ -67,7 +67,7 @@ In a controller, you may do:
         'message' => 'I am a message and I have been logged'
     ));
 
-Or you can have the trigger return the Sentry `event_id` for processing:
+Or you can store the returned Sentry `event_id` for processing:
 
     $eventID = $this->getEventManager()->trigger('log', $this, array(
         'priority' => \Zend\Log\Logger::INFO,
@@ -79,7 +79,7 @@ Now you can tell your users or API consumers the ID so they can referr to it, e.
 Make sure to pass `"log"` as the first parameter and `$this` **or** a custom context string as second parameter. 
 Keep this consistent as Sentry will use this for grouping your log entries. As the third parameter, 
 you want to pass an array with a priority key and a message key. It's best to use the priorities provided 
-by the framework. They will be mapped onto Sentry's own priorities.
+by the Zend Framework. They will be mapped onto Sentry's own priorities.
 
 Besides the fact that uncaught exceptions and errors are automatically logged, you may also log caught or uncaught
 exceptions manually by using the respective listener directly:
@@ -93,6 +93,29 @@ exceptions manually by using the respective listener directly:
         $eventID = $result->last();
     }
 
+#Using Tags
+
+You can also pass your own tags to Sentry. The service will automatically create filtering and sorting for these tags.
+When using the `log` event, you can optionally pass tags like this:
+
+    $this->getEventManager()->trigger('log', $this, array(
+        'priority' => \Zend\Log\Logger::INFO,
+        'message' => 'I am a message with a language tag',
+        'tags' => array('language' => 'en'),
+    ));
+
+If using the `logException` event manually, you can also pass along tags:
+
+    try {
+        throw new Exception('throw and catch with tags');
+    } catch (Exception $exception) {
+        $this->getEventManager()->trigger('logException', $this, array('exception' => $exception, 'tags' => array('language' => 'fr')));
+    }
+
+**NB!** Every tag needs a key and a value.
+
+See how to use tags for automagically logged exceptions below.
+
 #Raven as Service
 
 The module registers the Raven_Client as an application wide service. Usually you don't want to access it directly
@@ -103,6 +126,18 @@ be helpful is for adding user context. For example you might want to do somethin
         $ravenClient = $this->serviceManager->get('raven');
         $ravenClient->user_context($authenticationService->getIdentity()->userID);
     }
+
+You can also use Raven directly, if you would like to add some tags to the context, which will be sent with every automatic entry.
+You might want to do something like this e.g. in your `AbstractActionController::preDispatch()`:
+
+    if ($this->serviceLocator->has('raven')) {
+        $ravenClient = $this->serviceLocator->get('raven');
+        $ravenClient->tags_context(array(
+            'language' => $this->translator()->getLanguage(),
+            'aclRole' => $acl->getRole()->name,
+        ));
+    }
+
 
 #Configuration options
 

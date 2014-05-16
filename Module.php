@@ -27,6 +27,20 @@ use ZendSentry\Log\Writer\Sentry;
 class Module
 {
     /**
+     * Translates Zend Framework log levels to Raven log levels.
+     */
+    private $logLevels = array(
+        7 => Raven::DEBUG,
+        6 => Raven::INFO,
+        5 => Raven::INFO,
+        4 => Raven::WARNING,
+        3 => Raven::ERROR,
+        2 => Raven::FATAL,
+        1 => Raven::FATAL,
+        0 => Raven::FATAL,
+    );
+
+    /**
      * @var Raven $ravenClient
      */
     protected $ravenClient;
@@ -136,7 +150,8 @@ class Module
             $message  = $event->getParam('message', 'No message provided');
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
-            $eventID = $raven->captureMessage($message, null, $priority);
+            $tags     = $event->getParam('tags', array());
+            $eventID = $raven->captureMessage($message, null, array('tags' => $tags, 'level' => $this->logLevels[$priority]));
 
             return $eventID;
         }, 2);
@@ -184,17 +199,14 @@ class Module
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
 
-        // Attach user context if available
-        //$userIdentity = $event->getApplication()->getServiceManager()->get('AuthenticationService')->getIdentity();
-        //$this->ravenClient->user_context($userIdentity);
-
         $ravenClient = $this->ravenClient;
 
         // Attach an exception listener for the ZendSentry exception strategy, can be triggered from anywhere else too
         $this->eventManager->getSharedManager()->attach('*', 'logException', function($event) use ($ravenClient) {
             /** @var $event MvcEvent */
             $exception = $event->getParam('exception');
-            $eventID = $ravenClient->captureException($exception);
+            $tags = $event->getParam('tags', array());
+            $eventID = $ravenClient->captureException($exception, array('tags' => $tags));
             return $eventID;
         });
     }

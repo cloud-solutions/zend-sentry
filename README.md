@@ -21,10 +21,11 @@ It is a module that builds the bridge between your Zend Framework 2 application 
 easy to setup and does a lot of things out-of-the-box.
 
 Current features:
-* log PHP exceptions to Sentry
+* log uncaucht PHP exceptions to Sentry
 * log PHP errors to Sentry
 * log uncaught Javascript errors to Sentry
-* log anything to Sentry by triggering a registered log listener
+* log anything you like to Sentry by triggering registered log listeners
+* ZF ExceptionStrategy for Http as well as the CLI (automatic selection)
 
 #Installation
 
@@ -49,9 +50,8 @@ That's it. There's nothing more you need to do, everything works at that stage, 
 
 Again, you don't need to write a single line of code to make this work. The default settings will make sure Sentry
 is registered as both error and exception handler, [try it](#try-it) by triggering and error or throwing around some 
-exceptions. You should instantly see them in your Sentry dashboard. ZendSentry also packages its own ExceptionStrategy 
-to make sure, exceptions ZF would otherwise intercept, are logged. 
-
+exceptions. You should instantly see them in your Sentry dashboard. ZendSentry also packages its own ExceptionStrategies
+to make sure, exceptions ZF would otherwise intercept, are logged.
 
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from
 anywhere in your application. These will be logged using the `Zend\Log\Logger` with a Sentry writter provided by 
@@ -64,10 +64,31 @@ In a controller, you may do:
         'message' => 'I am a message and I have been logged'
     ));
 
+Or you can have the trigger return the Sentry `event_id` for processing:
+
+    $eventID = $this->getEventManager()->trigger('log', $this, array(
+        'priority' => \Zend\Log\Logger::INFO,
+        'message' => 'I am a message and I have been logged'
+    ));
+
+Now you can tell your users or API consumers the ID so they can referr to it, e.g. when asking for support.
+
 Make sure to pass `"log"` as the first parameter and `$this` **or** a custom context string as second parameter. 
 Keep this consistent as Sentry will use this for grouping your log entries. As the third parameter, 
 you want to pass an array with a priority key and a message key. It's best to use the priorities provided 
 by the framework. They will be mapped onto Sentry's own priorities.
+
+Besides the fact that uncaught exceptions and errors are automatically logged, you may also log caught or uncaught
+exceptions manually by using the respective listener directly:
+
+    try {
+        throw new Exception('throw and catch');
+    } catch (Exception $exception) {
+        $result = $this->getEventManager()->trigger('logException', $this, array('exception' => $exception));
+
+        //get Sentry event_id by retrieving it from the EventManager ResultCollection
+        $eventID = $result->last();
+    }
 
 #Configuration options
 

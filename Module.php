@@ -112,20 +112,18 @@ class Module
 
     /**
      * Gives us the possibility to write logs to Sentry from anywhere in the application
+     * Doesn't use the ZF compatible Log Writer because we want to return the Sentry event ID
+     * ZF Logging doesn't provide the possibility to return values from writers
      *
      * @param MvcEvent $event
      */
     private function setupBasicLogging(MvcEvent $event)
     {
-         // Setup the Zend Logger with our Sentry Writer
-        $logger      = new Logger;
-        $writer      = new Sentry($this->ravenClient);
-        $logger->addWriter($writer);
-
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
+        $raven = $this->ravenClient;
 
-        $sharedManager->attach('*', 'log', function($event) use ($logger) {
+        $sharedManager->attach('*', 'log', function($event) use ($raven) {
             /** @var $event MvcEvent */
             if (is_object($event->getTarget())) {
                 $target   = get_class($event->getTarget());
@@ -135,7 +133,9 @@ class Module
             $message  = $event->getParam('message', 'No message provided');
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
-            $logger->log($priority, $message);
+            $eventID = $raven->captureMessage($message, null, $priority);
+
+            return $eventID;
         }, 2);
     }
 
@@ -176,7 +176,7 @@ class Module
         $exceptionStrategy = $event->getApplication()->getServiceManager()->get('ViewManager')->getExceptionStrategy();
         $exceptionStrategy->detach($this->eventManager);
         // Check if script is running in console
-        $exceptionStrategy = (PHP_SAPI == 'cli')?(new SentryConsoleStrategy()):(new SentryHttpStrategy());
+        $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
 
@@ -185,7 +185,8 @@ class Module
         $this->eventManager->getSharedManager()->attach('*', 'logException', function($event) use ($ravenClient) {
             /** @var $event MvcEvent */
             $exception = $event->getParam('exception');
-            $ravenClient->captureException($exception);
+            $eventID = $ravenClient->captureException($exception);
+            return $eventID;
         });
     }
 

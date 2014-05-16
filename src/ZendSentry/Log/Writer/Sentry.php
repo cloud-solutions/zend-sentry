@@ -13,7 +13,6 @@
 namespace ZendSentry\Log\Writer;
 
 use Zend\Log\Writer\AbstractWriter;
-use Zend\Log\Logger;
 use Raven_Client as Raven;
 
 /**
@@ -52,6 +51,8 @@ class Sentry extends AbstractWriter
     protected function doWrite(array $event)
     {
         $extra['timestamp'] = $event['timestamp'];
-        $this->raven->captureMessage($event['message'], array(), $this->logLevels[$event['priorityName']], false, $event['extra']);
+        $eventID = $this->raven->captureMessage($event['message'], array(), $this->logLevels[$event['priorityName']], false, $event['extra']);
+
+        return $eventID;
     }
 }

@@ -147,10 +147,10 @@ class ExceptionStrategy implements ListenerAggregateInterface
             case Application::ERROR_EXCEPTION:
             default:
                 // Log exception to sentry by triggering an exception event
-                $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
+                $eventID = $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
 
                 $model = new ViewModel(array(
-                    'message'            => 'Oh no. Something went wrong, but we have been notified.',
+                    'message'            => 'Oh no. Something went wrong, but we have been notified. If you are testing, tell us your eventID: ' . $eventID->last(),
                     'exception'          => $e->getParam('exception'),
                     'display_exceptions' => $this->displayExceptions(),
                 ));

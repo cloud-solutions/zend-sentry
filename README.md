@@ -2,9 +2,10 @@ A Zend Framework 2 module that lets you log exceptions, errors or whatever you w
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.1.0`.
+The current version of ZendSentry is `1.2.0`.
 
 #Important Changes
+- 1.2.0: every logging action returns the Sentry event_id, Raven is registered as Service
 - 1.1.0: updated raven dependency to latest (0.8.0), upgrade is recommended
 - 1.0.1: updated raven dependency to latest (0.7.1), important if you run pre 7.16.2 curl
 - 1.0.0: updated raven depencency to latest (0.7.0), first stable release (has been very stable)
@@ -21,11 +22,13 @@ It is a module that builds the bridge between your Zend Framework 2 application 
 easy to setup and does a lot of things out-of-the-box.
 
 Current features:
-* log uncaucht PHP exceptions to Sentry
-* log PHP errors to Sentry
-* log uncaught Javascript errors to Sentry
+* log uncaucht PHP exceptions to Sentry automagically
+* log PHP errors to Sentry automagically
+* log uncaught Javascript errors to Sentry automagically
 * log anything you like to Sentry by triggering registered log listeners
 * ZF ExceptionStrategy for Http as well as the CLI (automatic selection)
+* log actions return the Sentry event_id
+* Raven is registered as a Service
 
 #Installation
 
@@ -34,7 +37,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.1.0"
+            "cloud-solutions/zend-sentry": "1.2.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -88,6 +91,17 @@ exceptions manually by using the respective listener directly:
 
         //get Sentry event_id by retrieving it from the EventManager ResultCollection
         $eventID = $result->last();
+    }
+
+#Raven as Service
+
+The module registers the Raven_Client as an application wide service. Usually you don't want to access it directly
+because triggering the event listeners leaves you with cleaner code. One example where the direct usage of Raven can
+be helpful is for adding user context. For example you might want to do something like this during your bootstrap:
+
+    if ($authenticationService->hasIdentity()) {
+        $ravenClient = $this->serviceManager->get('raven');
+        $ravenClient->user_context($authenticationService->getIdentity()->userID);
     }
 
 #Configuration options

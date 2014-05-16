@@ -20,7 +20,6 @@ use Zend\Mvc\View\Http\ExceptionStrategy;
 use Raven_Client as Raven;
 use Zend\Log\Logger;
 use ZendSentry\Log\Writer\Sentry;
-use ZendSentry\ZendSentry;
 
 /*
  * @package    ZendSentry\Module
@@ -30,22 +29,22 @@ class Module
     /**
      * @var Raven $ravenClient
      */
-    private $ravenClient;
+    protected $ravenClient;
 
     /**
      * @var ZendSentry $zendSentry
      */
-    private $zendSentry;
+    protected $zendSentry;
 
     /**
      * @var $config
      */
-    private $config;
+    protected $config;
 
     /**
      * @var EventManager $eventManager
      */
-    private $eventManager;
+    protected $eventManager;
 
     /**
      * @param MvcEvent $event
@@ -60,8 +59,12 @@ class Module
         }
 
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
-        $this->ravenClient = new Raven($sentryApiKey);
-        $this->zendSentry = new ZendSentry($this->ravenClient);
+        $ravenClient = new Raven($sentryApiKey);
+
+        // Register the RavenClient as a application wide service
+        $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
+        $this->ravenClient = $ravenClient;
+        $this->zendSentry = new ZendSentry($ravenClient);
 
         // Get the eventManager and set it as a member for convenience
         $this->eventManager = $event->getApplication()->getEventManager();
@@ -117,7 +120,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    private function setupBasicLogging(MvcEvent $event)
+    protected function setupBasicLogging(MvcEvent $event)
     {
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
@@ -166,7 +169,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    private function setupExceptionLogging(MvcEvent $event)
+    protected function setupExceptionLogging(MvcEvent $event)
     {
         // Register Sentry as exception handler for exception that bubble up to the top
         $this->zendSentry->registerExceptionHandler($this->config['zend-sentry']['call-existing-exception-handler']);
@@ -175,12 +178,18 @@ class Module
         /** @var $exceptionStrategy ExceptionStrategy */
         $exceptionStrategy = $event->getApplication()->getServiceManager()->get('ViewManager')->getExceptionStrategy();
         $exceptionStrategy->detach($this->eventManager);
+
         // Check if script is running in console
         $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
 
+        // Attach user context if available
+        //$userIdentity = $event->getApplication()->getServiceManager()->get('AuthenticationService')->getIdentity();
+        //$this->ravenClient->user_context($userIdentity);
+
         $ravenClient = $this->ravenClient;
+
         // Attach an exception listener for the ZendSentry exception strategy, can be triggered from anywhere else too
         $this->eventManager->getSharedManager()->attach('*', 'logException', function($event) use ($ravenClient) {
             /** @var $event MvcEvent */
@@ -195,7 +204,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    private function setupJavascriptLogging(MvcEvent $event)
+    protected function setupJavascriptLogging(MvcEvent $event)
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
         $viewHelper->offsetSetFile(0, '//d3nslu0hdya83q.cloudfront.net/dist/1.0/raven.min.js');

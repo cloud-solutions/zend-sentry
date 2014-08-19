@@ -1,5 +1,7 @@
 A Zend Framework 2 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master)
+
 ZendSentry is released under the New BSD License.
 
 The current version of ZendSentry is `1.2.0`.

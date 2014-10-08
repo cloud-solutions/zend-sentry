@@ -21,8 +21,10 @@ use Raven_Client as Raven;
 use Zend\Log\Logger;
 use ZendSentry\Log\Writer\Sentry;
 
-/*
- * @package    ZendSentry\Module
+/**
+ * Class Module
+ *
+ * @package ZendSentry
  */
 class Module
 {
@@ -115,6 +117,9 @@ class Module
 
     }
 
+    /**
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array('Zend\Loader\StandardAutoloader' => array('namespaces' => array(
@@ -122,6 +127,9 @@ class Module
         )));
     }
 
+    /**
+     * @return mixed
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -151,7 +159,7 @@ class Module
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
             $tags     = $event->getParam('tags', array());
-            $eventID = $raven->captureMessage($message, null, array('tags' => $tags, 'level' => $this->logLevels[$priority]));
+            $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $this->logLevels[$priority]));
 
             return $eventID;
         }, 2);
@@ -219,7 +227,7 @@ class Module
     protected function setupJavascriptLogging(MvcEvent $event)
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
-        $viewHelper->offsetSetFile(0, '//d3nslu0hdya83q.cloudfront.net/dist/1.0/raven.min.js');
+        $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/1.1.16/jquery,native/raven.min.js');
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
     }

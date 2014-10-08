@@ -16,7 +16,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\ResponseInterface as Response;
+use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ConsoleModel;
 
 /**
@@ -159,7 +159,7 @@ EOT;
 
         // Do nothing if the result is a response object
         $result = $e->getResult();
-        if ($result instanceof Response) {
+        if ($result instanceof ResponseInterface) {
             return;
         }
 

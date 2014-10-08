@@ -50,6 +50,7 @@ class Sentry extends AbstractWriter
      */
     protected function doWrite(array $event)
     {
+        $extra = array();
         $extra['timestamp'] = $event['timestamp'];
         $eventID = $this->raven->captureMessage($event['message'], array(), $this->logLevels[$event['priorityName']], false, $event['extra']);
 

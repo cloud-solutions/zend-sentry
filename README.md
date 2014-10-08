@@ -4,9 +4,10 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.2.0`.
+The current version of ZendSentry is `1.3.0`.
 
 #Important Changes
+- 1.3.0: updated raven dependency to latest (0.10.0), important security relevant changes (curl), upgrade is strongly recommended
 - 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
 - 1.1.0: updated raven dependency to latest (0.8.0), upgrade is recommended
 - 1.0.1: updated raven dependency to latest (0.7.1), important if you run pre 7.16.2 curl
@@ -39,7 +40,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.2.0"
+            "cloud-solutions/zend-sentry": "1.3.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

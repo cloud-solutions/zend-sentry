@@ -4,14 +4,13 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.3.0`.
+The current version of ZendSentry is `1.4.0`.
 
 #Important Changes
+- 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
 - 1.3.0: updated raven dependency to latest (0.10.0), important security relevant changes (curl), upgrade is strongly recommended
 - 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
-- 1.1.0: updated raven dependency to latest (0.8.0), upgrade is recommended
 - 1.0.1: updated raven dependency to latest (0.7.1), important if you run pre 7.16.2 curl
-- 1.0.0: updated raven depencency to latest (0.7.0), first stable release (has been very stable)
 - 0.3.1: dedicated CLI ExceptionStrategy (credits to Mateusz Mirosławski)
 
 #Introduction
@@ -32,6 +31,7 @@ Current features:
 * ZF ExceptionStrategy for Http as well as the CLI (automatic selection)
 * log actions return the Sentry event_id
 * Raven is registered as a Service
+* override Raven config defaults
 
 #Installation
 
@@ -40,7 +40,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.3.0"
+            "cloud-solutions/zend-sentry": "1.4.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -190,6 +190,12 @@ Just for the record, a copy of the actual global configuration options:
      * Should Sentry also log javascript errors?
      */
     'handle-javascript-errors' => true,
+    
+    /**
+     * Set raven config options here.
+     * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
+     */
+    'raven-config' => array(),
     
 #Try it
 A few ideas how to try the different features from a Controller:

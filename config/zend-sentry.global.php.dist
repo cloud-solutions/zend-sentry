@@ -52,10 +52,10 @@ $settings = array(
     'handle-javascript-errors' => true,
 
     /**
-     * Should slow database queries be logged
-     * @todo implement
+     * Set raven config options here.
+     * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */
-    'log-slow-queries' => false,
+    'raven-config' => array(),
 );
 
 /**

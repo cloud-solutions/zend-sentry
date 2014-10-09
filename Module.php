@@ -19,7 +19,6 @@ use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
 use Zend\Mvc\View\Http\ExceptionStrategy;
 use Raven_Client as Raven;
 use Zend\Log\Logger;
-use ZendSentry\Log\Writer\Sentry;
 
 /**
  * Class Module
@@ -74,8 +73,14 @@ class Module
             return;
         }
 
+        if (isset($this->config['zend-sentry']['raven-config']) && is_array($this->config['zend-sentry']['raven-config'])) {
+            $ravenConfig = $this->config['zend-sentry']['raven-config'];
+        } else {
+            $ravenConfig = array();
+        }
+
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
-        $ravenClient = new Raven($sentryApiKey);
+        $ravenClient = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
         $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
@@ -109,12 +114,6 @@ class Module
         if ($this->config['zend-sentry']['handle-javascript-errors']) {
             $this->setupJavascriptLogging($event);
         }
-
-        // If ZendSentry is configured to log slow queries, register the respective plugin
-        if ($this->config['zend-sentry']['log-slow-queries']) {
-            $this->setupSlowQueryLogging($event);
-        }
-
     }
 
     /**
@@ -163,27 +162,6 @@ class Module
 
             return $eventID;
         }, 2);
-    }
-
-    /**
-     * Log slow queries to Sentry
-     *
-     * @param MvcEvent $event
-     * @todo implement
-     */
-    private function setupSlowQueryLogging(MvcEvent $event)
-    {
-        // Setup the Zend Logger with our Sentry Writer
-        $logger      = new Logger;
-        $writer      = new Sentry($this->ravenClient);
-        $logger->addWriter($writer);
-
-        // Get the shared event manager and attach a listener to the finish event
-        $sharedManager = $this->eventManager->getSharedManager();
-
-        $sharedManager->attach('*', 'finish', function($event) use ($logger) {
-            $logger->log(7, 'Logging of slow queries with ZendSentry is not implemented yet, you want to turn it off!');
-        });
     }
 
     /**

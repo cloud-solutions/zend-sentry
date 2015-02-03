@@ -45,6 +45,16 @@ $settings = array(
      * Should exceptions be displayed on the screen?
      */
     'display-exceptions' => false,
+    
+    /**
+     * If Exceptions are displayed on screen, this is the default message
+     */
+    'default-exception-message' => 'Oh no. Something went wrong, but we have been notified. If you are testing, tell us your eventID: %s',
+    
+    /**
+     * If Exceptions are displayed on screen, this is the default message in php cli mode
+     */
+    'default-exception-console-message' => "Oh no. Something went wrong, but we have been notified.\n",
 
     /**
      * Should Sentry also log javascript errors?

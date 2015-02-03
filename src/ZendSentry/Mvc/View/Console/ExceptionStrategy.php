@@ -34,6 +34,12 @@ class ExceptionStrategy implements ListenerAggregateInterface
     protected $displayExceptions = false;
 
     /**
+     * Default Exception Message
+     * @var string
+     */
+    protected $defaultExceptionMessage = "Oh no. Something went wrong, but we have been notified.\n";
+
+    /**
      * A template for message to show in console when an exception has occurred.
      * @var string|callable
      */
@@ -118,6 +124,16 @@ EOT;
     }
     
     /**
+     * Set the default exception message
+     * @param string $defaultExceptionMessage
+     */
+    public function setDefaultExceptionMessage($defaultExceptionMessage)
+    {
+        $this->defaultExceptionMessage = $defaultExceptionMessage;
+        return $this;
+    }
+
+	/**
      * Set template for message that will be shown in Console.
      * The message can be a string (template) or a callable (i.e. a closure).
      *
@@ -205,7 +221,7 @@ EOT;
                         $this->message
                     );
                 } else {
-                    $message = "Oh no. Something went wrong, but we have been notified.\n";
+                    $message = $this->defaultExceptionMessage;
                 }
 
                 // Prepare view model

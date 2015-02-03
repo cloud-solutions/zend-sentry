@@ -33,6 +33,12 @@ class ExceptionStrategy implements ListenerAggregateInterface
      * @var bool
      */
     protected $displayExceptions = false;
+    
+    /**
+     * Default Exception Message
+     * @var string
+     */
+    protected $defaultExceptionMessage = 'Oh no. Something went wrong, but we have been notified. If you are testing, tell us your eventID: %s';
 
     /**
      * Name of exception template
@@ -93,6 +99,16 @@ class ExceptionStrategy implements ListenerAggregateInterface
     {
         return $this->displayExceptions;
     }
+    
+    /**
+     * Set the default exception message
+     * @param string $defaultExceptionMessage
+     */
+    public function setDefaultExceptionMessage($defaultExceptionMessage)
+    {
+        $this->defaultExceptionMessage = $defaultExceptionMessage;
+        return $this;
+    }
 
     /**
      * Set the exception template
@@ -150,7 +166,7 @@ class ExceptionStrategy implements ListenerAggregateInterface
                 $eventID = $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
 
                 $model = new ViewModel(array(
-                    'message'            => 'Oh no. Something went wrong, but we have been notified. If you are testing, tell us your eventID: ' . $eventID->last(),
+                    'message'            => sprintf($this->defaultExceptionMessage, $eventID->last()),
                     'exception'          => $e->getParam('exception'),
                     'display_exceptions' => $this->displayExceptions(),
                 ));

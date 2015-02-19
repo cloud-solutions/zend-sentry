@@ -4,7 +4,10 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.4.0`.
+The current version of ZendSentry is `1.4.1`.
+
+#Latest Changes
+- [BnitoBzh](https://github.com/BnitoBzh) made screen and cli error messages configurable.
 
 #Important Changes
 - 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
@@ -24,10 +27,11 @@ It is a module that builds the bridge between your Zend Framework 2 application 
 easy to setup and does a lot of things out-of-the-box.
 
 Current features:
-* log uncaucht PHP exceptions to Sentry automagically
+* log uncatched PHP exceptions to Sentry automagically
 * log PHP errors to Sentry automagically
-* log uncaught Javascript errors to Sentry automagically
-* log anything you like to Sentry by triggering registered log listeners
+* log uncatched Javascript errors to Sentry automagically
+* capture Exceptions to Sentry by triggering an event listener
+* log anything you like to Sentry by triggering an event listener
 * ZF ExceptionStrategy for Http as well as the CLI (automatic selection)
 * log actions return the Sentry event_id
 * Raven is registered as a Service
@@ -40,7 +44,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.4.0"
+            "cloud-solutions/zend-sentry": "1.4.1"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

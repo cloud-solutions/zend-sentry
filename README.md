@@ -4,7 +4,7 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.4.1`.
+The current version of ZendSentry is `1.5.0`.
 
 #Latest Changes
 - [BnitoBzh](https://github.com/BnitoBzh) made screen and cli error messages configurable.
@@ -44,7 +44,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.4.1"
+            "cloud-solutions/zend-sentry": "1.5.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

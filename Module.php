@@ -184,6 +184,7 @@ class Module
         $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
+        $exceptionStrategy->setDefaultExceptionMessage($this->config['zend-sentry'][(PHP_SAPI == 'cli') ? 'default-exception-console-message' : 'default-exception-message']);
 
         $ravenClient = $this->ravenClient;
 

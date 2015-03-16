@@ -62,10 +62,16 @@ $settings = array(
     'handle-javascript-errors' => true,
 
     /**
+     * The error reporting level that will be send to sentry
+     */
+    'error-reporting' => -1,
+
+    /**
      * Set raven config options here.
      * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */
     'raven-config' => array(),
+
 );
 
 /**

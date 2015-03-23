@@ -4,12 +4,13 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.5.1`.
+The current version of ZendSentry is `1.6.0`.
 
 #Latest Changes
 - [BnitoBzh](https://github.com/BnitoBzh) made screen and cli error messages configurable.
 
 #Important Changes
+- 1.6.0: added a custom sentry client
 - 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
 - 1.3.0: updated raven dependency to latest (0.10.0), important security relevant changes (curl), upgrade is strongly recommended
 - 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service

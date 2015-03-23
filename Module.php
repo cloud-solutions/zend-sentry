@@ -80,7 +80,11 @@ class Module
         }
 
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
-        $ravenClient = new Raven($sentryApiKey, $ravenConfig);
+        $ravenClass = 'Raven';
+        if (array_key_exists('raven-client', $this->config['zend-sentry'])) {
+            $ravenClass = $this->config['zend-sentry']['raven-client'];
+        }
+        $ravenClient = new $ravenClass($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
         $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);

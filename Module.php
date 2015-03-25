@@ -19,6 +19,7 @@ use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
 use Zend\Mvc\View\Http\ExceptionStrategy;
 use Raven_Client as Raven;
 use Zend\Log\Logger;
+use Zend\Console\Console;
 
 /**
  * Class Module
@@ -190,7 +191,7 @@ class Module
         $exceptionStrategy->detach($this->eventManager);
 
         // Check if script is running in console
-        $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
+        $exceptionStrategy = Console::isConsole() ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
         $exceptionStrategy->setDefaultExceptionMessage($this->config['zend-sentry'][(PHP_SAPI == 'cli') ? 'default-exception-console-message' : 'default-exception-message']);

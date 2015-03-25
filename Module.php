@@ -19,6 +19,7 @@ use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
 use Zend\Mvc\View\Http\ExceptionStrategy;
 use Raven_Client as Raven;
 use Zend\Log\Logger;
+use Zend\Console\Console;
 
 /**
  * Class Module
@@ -80,7 +81,11 @@ class Module
         }
 
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
-        $ravenClient = new Raven($sentryApiKey, $ravenConfig);
+        $ravenClass = 'Raven';
+        if (array_key_exists('raven-client', $this->config['zend-sentry'])) {
+            $ravenClass = $this->config['zend-sentry']['raven-client'];
+        }
+        $ravenClient = new $ravenClass($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
         $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
@@ -102,7 +107,12 @@ class Module
 
         // If ZendSentry is configured to log errors, register it as error handler
         if ($this->config['zend-sentry']['handle-errors']) {
-            $this->zendSentry->registerErrorHandler($this->config['zend-sentry']['call-existing-error-handler']);
+            $this->zendSentry->registerErrorHandler(
+                $this->config['zend-sentry']['call-existing-error-handler'],
+                array_key_exists('error-reporting', $this->config['zend-sentry'])
+                    ? $this->config['zend-sentry']['error-reporting']
+                    : -1
+            );
         }
 
         // If ZendSentry is configured to log shutdown errors, register it
@@ -181,7 +191,7 @@ class Module
         $exceptionStrategy->detach($this->eventManager);
 
         // Check if script is running in console
-        $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
+        $exceptionStrategy = Console::isConsole() ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
         $exceptionStrategy->setDefaultExceptionMessage($this->config['zend-sentry'][(PHP_SAPI == 'cli') ? 'default-exception-console-message' : 'default-exception-message']);

@@ -46,7 +46,7 @@ class Sentry extends AbstractWriter
      * Write a message to the log
      *
      * @param array $event log data event
-     * @return void
+     * @return string $eventID the event ID
      */
     protected function doWrite(array $event)
     {

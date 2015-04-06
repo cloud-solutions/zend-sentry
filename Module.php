@@ -146,8 +146,9 @@ class Module
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
         $raven = $this->ravenClient;
+        $logLevels = $this->logLevels;
 
-        $sharedManager->attach('*', 'log', function($event) use ($raven) {
+        $sharedManager->attach('*', 'log', function($event) use ($raven, $logLevels) {
             /** @var $event MvcEvent */
             if (is_object($event->getTarget())) {
                 $target   = get_class($event->getTarget());
@@ -158,7 +159,7 @@ class Module
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
             $tags     = $event->getParam('tags', array());
-            $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $this->logLevels[$priority]));
+            $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $logLevels[$priority]));
 
             return $eventID;
         }, 2);

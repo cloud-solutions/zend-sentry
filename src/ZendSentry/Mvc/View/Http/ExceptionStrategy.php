@@ -162,6 +162,13 @@ class ExceptionStrategy implements ListenerAggregateInterface
 
             case Application::ERROR_EXCEPTION:
             default:
+                // check if there really is an exception
+                // zf2 also throw normal errors, for example: error-route-unauthorized
+                // if there is no exception we have nothing to log
+                if ($e->getParam('exception') == null) {
+                    return;
+                }
+
                 // Log exception to sentry by triggering an exception event
                 $eventID = $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
 

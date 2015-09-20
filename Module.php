@@ -102,7 +102,8 @@ class Module
 
         // If ZendSentry is configured to log errors, register it as error handler
         if ($this->config['zend-sentry']['handle-errors']) {
-            $this->zendSentry->registerErrorHandler($this->config['zend-sentry']['call-existing-error-handler']);
+            $errorReportingLevel = (isset($this->config['zend-sentry']['error-reporting'])) ? $this->config['zend-sentry']['error-reporting'] : -1;
+            $this->zendSentry->registerErrorHandler($this->config['zend-sentry']['call-existing-error-handler'], $errorReportingLevel);
         }
 
         // If ZendSentry is configured to log shutdown errors, register it

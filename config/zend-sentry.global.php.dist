@@ -27,6 +27,12 @@ $settings = array(
     'call-existing-error-handler' => true,
 
     /**
+     * Which errors should be reported to sentry (bitmask), e. g. E_ALL ^ E_DEPRECATED
+     * Defaults to -1 to report all possible errors (equivalent to E_ALL in >= PHP 5.4)
+     */
+    'error-reporting' => -1,
+
+    /**
      * Register Sentry as shutdown error handler
      */
     'handle-shutdown-errors' => true,

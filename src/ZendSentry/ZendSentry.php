@@ -41,11 +41,12 @@ class ZendSentry
     }
 
     /**
-     * @param bool $callExistingHandler
-     * @param null $errorReporting
+     * @param bool   $callExistingHandler
+     * @param int    $errorReporting
+     *
      * @return ZendSentry
      */
-    public function registerErrorHandler($callExistingHandler = true, $errorReporting = null)
+    public function registerErrorHandler($callExistingHandler = true, $errorReporting = E_ALL)
     {
         $this->ravenErrorHandler->registerErrorHandler($callExistingHandler, $errorReporting);
         return $this;

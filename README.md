@@ -4,16 +4,15 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.5.2`.
+The current version of ZendSentry is `1.5.3`.
 
 #Latest Changes
-- [BnitoBzh](https://github.com/BnitoBzh) made screen and cli error messages configurable.
+- Fix: Error reporting level needs to be configurable through config and must not be null
 
 #Important Changes
+- 1.5.2: Configurable error messages
 - 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
-- 1.3.0: updated raven dependency to latest (0.10.0), important security relevant changes (curl), upgrade is strongly recommended
 - 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
-- 1.0.1: updated raven dependency to latest (0.7.1), important if you run pre 7.16.2 curl
 - 0.3.1: dedicated CLI ExceptionStrategy (credits to Mateusz Mirosławski)
 
 #Introduction
@@ -44,7 +43,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.5.2"
+            "cloud-solutions/zend-sentry": "1.5.3"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -184,6 +183,12 @@ Just for the record, a copy of the actual global configuration options:
      * Should the previously registered exception handler be called as well
      */
     'call-existing-exception-handler' => true,
+
+    /**
+     * Which errors should be reported to sentry (bitmask), e. g. E_ALL ^ E_DEPRECATED
+     * Defaults to -1 to report all possible errors (equivalent to E_ALL in >= PHP 5.4)
+     */
+    'error-reporting' => -1,
 
     /**
      * Should exceptions be displayed on the screen?

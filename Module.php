@@ -179,7 +179,7 @@ class Module
 
         // Replace the default ExceptionStrategy with ZendSentry's strategy
         /** @var $exceptionStrategy ExceptionStrategy */
-        $exceptionStrategy = $event->getApplication()->getServiceManager()->get('ViewManager')->getExceptionStrategy();
+        $exceptionStrategy = $event->getApplication()->getServiceManager()->get('HttpExceptionStrategy');
         $exceptionStrategy->detach($this->eventManager);
 
         // Check if script is running in console

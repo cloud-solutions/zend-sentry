@@ -4,7 +4,7 @@
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
     "homepage": "https://github.com/cloud-solutions/zend-sentry",
     "type": "library",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "license": "New BSD License",
     "authors": [
         {
@@ -15,6 +15,9 @@
     "require": {
         "php": ">=5.3.0",
         "raven/raven": "0.13.0"
+    },
+    "conflict": {
+        "zendframework/zendframework": ">=2.5.3"
     },
     "autoload": {
         "psr-0": {

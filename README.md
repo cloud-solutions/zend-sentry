@@ -4,12 +4,13 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `1.5.3`.
+The current version of ZendSentry is `1.5.4`. This version works with Zend Framework <=2.5.2.
 
 #Latest Changes
-- Fix: Error reporting level needs to be configurable through config and must not be null
+- branch of legacy version to support older ZF versions
 
 #Important Changes
+- 1.5.4: Legacy branch
 - 1.5.2: Configurable error messages
 - 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
 - 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
@@ -43,7 +44,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "1.5.3"
+            "cloud-solutions/zend-sentry": "1.5.4"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

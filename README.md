@@ -4,9 +4,11 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `2.0.0`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the 1.* series.
+The current version of ZendSentry is `2.1.0`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the 1.* series.
 
 #Latest Changes
+- Switch Raven dependency to new official sentry/sentry repository
+- Update ravenjs to latest version
 - Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
 
 #Important Changes
@@ -44,7 +46,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "2.0.0"
+            "cloud-solutions/zend-sentry": "2.1.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -218,7 +220,7 @@ Just for the record, a copy of the actual global configuration options:
     'raven-config' => array(),
     
 #Try it
-A few ideas how to try the different features from a Controller:
+A few ideas how to try the different features from a Controller or View:
     
     // Test logging of PHP errors
     // trigger_error('can I trigger an error from a controller');
@@ -226,6 +228,5 @@ A few ideas how to try the different features from a Controller:
     // Test logging of PHP exceptions
     // throw new \Exception('Some exception gets logged.');
     
-    // Throw a javascript error and see it logged
-    // $headScript = $this->getServiceLocator()->get('viewhelpermanager')->get('headscript')
-                          ->appendScript("throw new Error('A javascript error should be logged.');");
+    // Throw a javascript error and see it logged (add to view or layout)
+    // $headScript->appendScript("throw new Error('A javascript error should be logged.');");

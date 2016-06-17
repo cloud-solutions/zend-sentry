@@ -73,14 +73,13 @@ class ZendSentry
     }
 
     /**
-     * @param $ravenErrorHandler
+     * @param null|RavenErrorHandler $ravenErrorHandler
      */
     private function setOrLoadRavenErrorHandler($ravenErrorHandler)
     {
         if ($ravenErrorHandler !== null) {
             $this->ravenErrorHandler = $ravenErrorHandler;
-        }
-        else {
+        } else {
             $this->ravenErrorHandler = new RavenErrorHandler($this->ravenClient);
         }
     }

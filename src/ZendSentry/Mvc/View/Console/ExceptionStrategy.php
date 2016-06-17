@@ -133,7 +133,7 @@ EOT;
         return $this;
     }
 
-	/**
+    /**
      * Set template for message that will be shown in Console.
      * The message can be a string (template) or a callable (i.e. a closure).
      *
@@ -209,7 +209,7 @@ EOT;
                             ':line',
                             ':stack',
                             ':previous',
-                        ),array(
+                        ), array(
                             get_class($exception),
                             $exception->getMessage(),
                             $exception->getCode(),

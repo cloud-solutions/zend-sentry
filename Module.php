@@ -123,7 +123,7 @@ class Module
     public function getAutoloaderConfig()
     {
         return array('Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-            __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+            __NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
         )));
     }
 
@@ -132,7 +132,7 @@ class Module
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__.'/config/module.config.php';
     }
 
     /**
@@ -152,7 +152,7 @@ class Module
         $sharedManager->attach('*', 'log', function($event) use ($raven, $logLevels) {
             /** @var $event MvcEvent */
             if (is_object($event->getTarget())) {
-                $target   = get_class($event->getTarget());
+                $target = get_class($event->getTarget());
             } else {
                 $target = (string) $event->getTarget();
             }

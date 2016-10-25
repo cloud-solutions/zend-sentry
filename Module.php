@@ -178,10 +178,12 @@ class Module
         $this->zendSentry->registerExceptionHandler($this->config['zend-sentry']['call-existing-exception-handler']);
 
         // Replace the default ExceptionStrategy with ZendSentry's strategy
-        /** @var $exceptionStrategy ExceptionStrategy */
-        $exceptionStrategy = $event->getApplication()->getServiceManager()->get('HttpExceptionStrategy');
-        $exceptionStrategy->detach($this->eventManager);
-
+        if ($event->getApplication()->getServiceManager()->has('HttpExceptionStrategy')) {
+            /** @var $exceptionStrategy ExceptionStrategy */
+            $exceptionStrategy = $event->getApplication()->getServiceManager()->get('HttpExceptionStrategy');
+            $exceptionStrategy->detach($this->eventManager);
+        }
+        
         // Check if script is running in console
         $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);

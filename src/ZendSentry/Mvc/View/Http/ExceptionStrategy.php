@@ -7,7 +7,7 @@
  *
  * @package    ZendSentry\Mvc\View\Http\ExceptionStrategy
  * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2011, cloud solutions OÜ
+ * @copyright  Copyright (c) 2016, cloud solutions OÜ
  */
 
 namespace ZendSentry\Mvc\View\Http;
@@ -33,7 +33,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
      * @var bool
      */
     protected $displayExceptions = false;
-
+    
     /**
      * Default Exception Message
      * @var string
@@ -44,18 +44,10 @@ class ExceptionStrategy extends AbstractListenerAggregate
      * Name of exception template
      * @var string
      */
-    protected $exceptionTemplate = 'error/index';
+    protected $exceptionTemplate = 'error';
 
     /**
-     * @var \Zend\Stdlib\CallbackHandler[]
-     */
-    protected $listeners = array();
-
-    /**
-     * Attach the aggregate to the specified event manager
-     *
-     * @param  EventManagerInterface $events
-     * @return void
+     * {@inheritDoc}
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -84,10 +76,11 @@ class ExceptionStrategy extends AbstractListenerAggregate
     {
         return $this->displayExceptions;
     }
-
+    
     /**
      * Set the default exception message
      * @param string $defaultExceptionMessage
+     * @return self
      */
     public function setDefaultExceptionMessage($defaultExceptionMessage)
     {
@@ -148,7 +141,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
             case Application::ERROR_EXCEPTION:
             default:
                 // check if there really is an exception
-                // zf2 also throw normal errors, for example: error-route-unauthorized
+                // ZF also throws normal errors, for example: error-route-unauthorized
                 // if there is no exception we have nothing to log
                 if ($e->getParam('exception') == null) {
                     return;

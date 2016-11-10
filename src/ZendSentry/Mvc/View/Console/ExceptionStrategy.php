@@ -7,7 +7,7 @@
  *
  * @package    ZendSentry\Mvc\View\Console\ExceptionStrategy
  * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2013, cloud solutions OÜ
+ * @copyright  Copyright (c) 2016, cloud solutions OÜ
  */
 
 namespace ZendSentry\Mvc\View\Console;
@@ -60,15 +60,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
 EOT;
 
     /**
-     * @var \Zend\Stdlib\CallbackHandler[]
-     */
-    protected $listeners = array();
-
-    /**
-     * Attach the aggregate to the specified event manager
-     *
-     * @param  EventManagerInterface $events
-     * @return void
+     * {@inheritDoc}
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -97,7 +89,7 @@ EOT;
     {
         return $this->displayExceptions;
     }
-
+    
     /**
      * Get current template for message that will be shown in Console.
      *
@@ -107,10 +99,11 @@ EOT;
     {
         return $this->message;
     }
-
+    
     /**
      * Set the default exception message
      * @param string $defaultExceptionMessage
+     * @return self
      */
     public function setDefaultExceptionMessage($defaultExceptionMessage)
     {
@@ -176,7 +169,7 @@ EOT;
             default:
                 // Prepare error message
                 $exception = $e->getParam('exception');
-
+                
                 // Log exception to sentry by triggering an exception event
                 $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $exception));
 

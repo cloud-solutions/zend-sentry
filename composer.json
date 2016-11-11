@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^5.5 || ^7.0",
-        "sentry/sentry": "0.21.2"
+        "sentry/sentry": "1.5.0"
     },
     "conflict": {
         "zendframework/zendframework": "<2.5.3"

@@ -146,8 +146,6 @@ class Module
      */
     protected function setupBasicLogging(MvcEvent $event)
     {
-        // Suppress inspection
-        unset($event);
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
         $raven = $this->ravenClient;

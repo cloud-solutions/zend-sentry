@@ -1,10 +1,15 @@
-A Zend Framework module that lets you log exceptions, errors or whatever you wish to the Sentry service.
+A Zend Framework 2 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
 Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/build.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/build-status/master)
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF2 is `2.4.0`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the `1.*` series. For ZF3 compatible versions, please install releases in the `3.*` branch.
+The current version of ZendSentry for ZF3 is `3.0.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
+
+#Latest Changes
+- Switch Raven dependency to new official sentry/sentry repository
+- Update ravenjs to latest version
+- Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
 
 # Important Changes
 - 3.3.0: Add possibility to pass config options to ravenjs
@@ -47,7 +52,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "2.4.0"
+            "cloud-solutions/zend-sentry": "3.0.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -141,16 +146,14 @@ be helpful is for adding user context. For example you might want to do somethin
 You can also use Raven directly, if you would like to add some tags to the context, which will be sent with every automatic entry.
 You might want to do something like this e.g. in your `AbstractActionController::preDispatch()`:
 
-    $serviceManager = $mvcEvent->getApplication()->getServiceManager();
-    if ($serviceManager->has('raven')) {
-        $ravenClient = $serviceManager->get('raven');
-        $ravenClient->tags_context(
-            [
-                'locale'  => $this->translator()->getLocale(),
-                ...
-            ]
-        );
+    if ($this->serviceLocator->has('raven')) {
+        $ravenClient = $this->serviceLocator->get('raven');
+        $ravenClient->tags_context(array(
+            'language' => $this->translator()->getLanguage(),
+            'aclRole' => $acl->getRole()->name,
+        ));
     }
+
 
 # Configuration options
 

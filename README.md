@@ -4,7 +4,7 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry is `2.2.0`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the 1.* series.
+The current version of ZendSentry for ZF3 is `3.0.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
 
 #Latest Changes
 - Switch Raven dependency to new official sentry/sentry repository
@@ -12,6 +12,8 @@ The current version of ZendSentry is `2.2.0`. It supports Zend Framework >= 2.5.
 - Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
 
 #Important Changes
+- 3.0.0: First ZF2 release with latest sentry SDK dependencies and ZF3 compatibility fixes
+- 2.2.1: Update to `sentry/sentry` 1.5.0 and `ravenjs` 3.8.0, Fix: Only detach HttpExceptionStrategy if it exists
 - 2.2.0: Update to `sentry/sentry` 0.21.2
 - 2.0.0: New major version for ZF >=2.5.3
 - 1.5.2: Configurable error messages
@@ -47,7 +49,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "2.2.0"
+            "cloud-solutions/zend-sentry": "3.0.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

@@ -7,13 +7,13 @@
  *
  * @package    ZendSentry\Mvc\View\Console\ExceptionStrategy
  * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2016, cloud solutions OÜ
+ * @copyright  Copyright (c) 2013, cloud solutions OÜ
  */
 
 namespace ZendSentry\Mvc\View\Console;
 
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
@@ -25,7 +25,7 @@ use Zend\View\Model\ConsoleModel;
  *
  * @package    ZendSentry\Mvc\View\Console\ExceptionStrategy
  */
-class ExceptionStrategy extends AbstractListenerAggregate
+class ExceptionStrategy implements ListenerAggregateInterface
 {
     /**
      * Display exceptions?
@@ -60,12 +60,35 @@ class ExceptionStrategy extends AbstractListenerAggregate
 EOT;
 
     /**
-     * {@inheritDoc}
+     * @var \Zend\Stdlib\CallbackHandler[]
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    protected $listeners = array();
+
+    /**
+     * Attach the aggregate to the specified event manager
+     *
+     * @param  EventManagerInterface $events
+     * @return void
+     */
+    public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'prepareExceptionViewModel'));
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'prepareExceptionViewModel'));
+    }
+
+    /**
+     * Detach aggregate listeners from the specified event manager
+     *
+     * @param  EventManagerInterface $events
+     * @return void
+     */
+    public function detach(EventManagerInterface $events)
+    {
+        foreach ($this->listeners as $index => $listener) {
+            if ($events->detach($listener)) {
+                unset($this->listeners[$index]);
+            }
+        }
     }
 
     /**
@@ -103,7 +126,6 @@ EOT;
     /**
      * Set the default exception message
      * @param string $defaultExceptionMessage
-     * @return self
      */
     public function setDefaultExceptionMessage($defaultExceptionMessage)
     {

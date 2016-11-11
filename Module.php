@@ -83,6 +83,7 @@ class Module
         $ravenClient = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
+        /** @noinspection PhpUndefinedMethodInspection */
         $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
         $this->ravenClient = $ravenClient;
         $this->zendSentry = new ZendSentry($ravenClient);
@@ -133,7 +134,8 @@ class Module
     public function getConfig()
     {
         return include __DIR__.'/config/module.config.php';
-    }
+    }/** @noinspection PhpUnusedParameterInspection */
+    /** @noinspection PhpUnusedParameterInspection */
 
     /**
      * Gives us the possibility to write logs to Sentry from anywhere in the application
@@ -144,6 +146,8 @@ class Module
      */
     protected function setupBasicLogging(MvcEvent $event)
     {
+        // Suppress inspection
+        unset($event);
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
         $raven = $this->ravenClient;
@@ -210,8 +214,10 @@ class Module
     protected function setupJavascriptLogging(MvcEvent $event)
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
+        /** @noinspection PhpUndefinedMethodInspection */
         $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.8.0/raven.min.js');
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
+        /** @noinspection PhpUndefinedMethodInspection */
         $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
     }
 

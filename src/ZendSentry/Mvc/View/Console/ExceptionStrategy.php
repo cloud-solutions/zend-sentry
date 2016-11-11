@@ -122,10 +122,13 @@ EOT;
     {
         return $this->message;
     }
-    
+
     /**
      * Set the default exception message
+     *
      * @param string $defaultExceptionMessage
+     *
+     * @return $this
      */
     public function setDefaultExceptionMessage($defaultExceptionMessage)
     {

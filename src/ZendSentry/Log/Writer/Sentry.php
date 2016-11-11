@@ -36,6 +36,12 @@ class Sentry extends AbstractWriter
 
     protected $raven;
 
+    /**
+     * Sentry constructor.
+     *
+     * @param Raven $raven
+     * @param null  $options
+     */
     public function __construct(Raven $raven, $options = null)
     {
         $this->raven = $raven;

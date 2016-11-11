@@ -99,10 +99,13 @@ class ExceptionStrategy implements ListenerAggregateInterface
     {
         return $this->displayExceptions;
     }
-    
+
     /**
      * Set the default exception message
+     *
      * @param string $defaultExceptionMessage
+     *
+     * @return $this
      */
     public function setDefaultExceptionMessage($defaultExceptionMessage)
     {
@@ -186,8 +189,10 @@ class ExceptionStrategy implements ListenerAggregateInterface
                     $response->setStatusCode(500);
                     $e->setResponse($response);
                 } else {
+                    /** @noinspection PhpUndefinedMethodInspection */
                     $statusCode = $response->getStatusCode();
                     if ($statusCode === 200) {
+                        /** @noinspection PhpUndefinedMethodInspection */
                         $response->setStatusCode(500);
                     }
                 }

@@ -192,7 +192,9 @@ class Module
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
         $exceptionStrategy->setDefaultExceptionMessage($this->config['zend-sentry'][(PHP_SAPI == 'cli') ? 'default-exception-console-message' : 'default-exception-message']);
-
+        if ($exceptionStrategy instanceof SentryHttpStrategy && isset($this->config['view_manager']['exception_template'])) {
+            $exceptionStrategy->setExceptionTemplate($this->config['view_manager']['exception_template']);
+        }
         $ravenClient = $this->ravenClient;
 
         // Attach an exception listener for the ZendSentry exception strategy, can be triggered from anywhere else too

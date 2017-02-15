@@ -13,6 +13,7 @@ The current version of ZendSentry for ZF2 is `2.2.1`. It supports Zend Framework
 - Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
 
 #Important Changes
+- 3.0.1: ViewHelper fix for ZF3
 - 3.0.0: Update to latest SDK dependencies and add ZF3 compatibility fixes
 - 2.2.1: Update to `sentry/sentry` 1.5.0 and `ravenjs` 3.8.0, Fix: Only detach HttpExceptionStrategy if it exists
 - 2.2.0: Update to `sentry/sentry` 0.21.2
@@ -50,7 +51,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "2.2.1"
+            "cloud-solutions/zend-sentry": "3.0.1"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

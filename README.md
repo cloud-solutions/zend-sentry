@@ -147,12 +147,14 @@ be helpful is for adding user context. For example you might want to do somethin
 You can also use Raven directly, if you would like to add some tags to the context, which will be sent with every automatic entry.
 You might want to do something like this e.g. in your `AbstractActionController::preDispatch()`:
 
-    if ($this->serviceLocator->has('raven')) {
-        $ravenClient = $this->serviceLocator->get('raven');
-        $ravenClient->tags_context(array(
-            'language' => $this->translator()->getLanguage(),
-            'aclRole' => $acl->getRole()->name,
-        ));
+    $serviceManager = $mvcEvent->getApplication()->getServiceManager();
+    if ($serviceManager->has('raven')) {
+        $ravenClient = $serviceManager->get('raven');
+        $ravenClient->tags_context(
+            [
+                'locale'  => $this->translator()->getLocale(),
+            ]
+        );
     }
 
 

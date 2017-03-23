@@ -160,8 +160,13 @@ class Module
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
             $tags     = $event->getParam('tags', array());
-            $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $logLevels[$priority]));
-
+            $extra    = $event->getParam('extra', array());
+            $eventID  = $raven->captureMessage(
+                $message, 
+                array(), 
+                array('tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra)
+            );
+            
             return $eventID;
         }, 2);
     }

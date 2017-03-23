@@ -4,11 +4,11 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF3 is `3.0.1`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
+The current version of ZendSentry for ZF3 is `3.1.1`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
 
 #Latest Changes
+- possibility to add extra context to the log event
 - Switch Raven dependency to new official sentry/sentry repository
-- Update ravenjs to latest version
 - Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
 
 # Important Changes
@@ -53,7 +53,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.0.1"
+            "cloud-solutions/zend-sentry": "3.1.1"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

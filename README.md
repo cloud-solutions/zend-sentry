@@ -4,7 +4,7 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF2 is `2.3.0`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the `1.*` series. For ZF3 compatible versions, please install releases in the `3.*` branch.
+The current version of ZendSentry for ZF2 is `2.3.1`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the `1.*` series. For ZF3 compatible versions, please install releases in the `3.*` branch.
 
 #Latest Changes
 - Possibility to add extra context to simple logs
@@ -51,7 +51,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "2.3.0"
+            "cloud-solutions/zend-sentry": "2.3.1"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -116,6 +116,7 @@ When using the `log` event, you can optionally pass tags like this:
         'priority' => \Zend\Log\Logger::INFO,
         'message' => 'I am a message with a language tag',
         'tags' => array('language' => 'en'),
+        'extra' => array('email' => 'test@test.com'),
     ));
 
 If using the `logException` event manually, you can also pass along tags:

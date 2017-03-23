@@ -162,9 +162,8 @@ class Module
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
             $tags     = $event->getParam('tags', array());
-            $extra   = $event->getParam('extra', array());
+            $extra    = $event->getParam('extra', array());
             $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra));
-
             return $eventID;
         }, 2);
     }
@@ -186,7 +185,7 @@ class Module
             $exceptionStrategy = $event->getApplication()->getServiceManager()->get('HttpExceptionStrategy');
             $exceptionStrategy->detach($this->eventManager);
         }
-        
+
         // Check if script is running in console
         $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);

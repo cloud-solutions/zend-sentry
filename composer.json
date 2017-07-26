@@ -4,17 +4,17 @@
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
     "homepage": "https://github.com/cloud-solutions/zend-sentry",
     "type": "library",
-    "version": "2.3.1",
+    "version": "2.4.0",
     "license": "New BSD License",
     "authors": [
         {
             "name": "Markus Hausammann",
-            "email": "mh@cloud-solutions.net"
+            "email": "markus.hausammann@brightanswer.ch"
         }
     ],
     "require": {
         "php": "^5.5 || ^7.0",
-        "sentry/sentry": "1.5.0"
+        "sentry/sentry": "1.7.0"
     },
     "conflict": {
         "zendframework/zendframework": "<2.5.3"

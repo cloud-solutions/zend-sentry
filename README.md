@@ -4,7 +4,7 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF3 is `3.2.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
+The current version of ZendSentry for ZF3 is `3.3.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
 
 #Latest Changes
 - possibility to add extra context to the log event
@@ -13,7 +13,7 @@ The current version of ZendSentry for ZF3 is `3.2.0`. It supports Zend Framework
 
 # Important Changes
 - 3.3.0: Add possibility to pass config options to ravenjs
-- 3.2.0 and 2.4.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
+- 3.2.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
 - 3.0.1: ViewHelper fix
 - 3.0.0: First ZF2 release with latest sentry SDK dependencies and ZF3 compatibility fixes
 - 2.2.1: Fix: Only detach HttpExceptionStrategy if it exists
@@ -43,7 +43,7 @@ Current features:
 * log actions return the Sentry event_id
 * Raven is registered as a Service
 * override Raven config defaults
-* set ravenjs options via config
+* pass config options to ravenjs
 
 # Installation
 
@@ -52,7 +52,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.2.0"
+            "cloud-solutions/zend-sentry": "3.3.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -227,6 +227,11 @@ Just for the record, a copy of the actual global configuration options:
      * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */
     'raven-config' => array(),
+    
+    /**
+     * Set ravenjs config options here, will be passed along with json_encode
+     */
+    'ravenjs-config' => array(),
     
 # Try it
 A few ideas how to try the different features from a Controller or View:

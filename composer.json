@@ -1,6 +1,6 @@
 {
     "name": "cloud-solutions/zend-sentry",
-    "description": "A Zend Framework 2 module that lets you log to the Sentry service.",
+    "description": "A Zend Framework module that lets you log to the Sentry service.",
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
     "homepage": "https://github.com/cloud-solutions/zend-sentry",
     "type": "library",

@@ -6,29 +6,24 @@ ZendSentry is released under the New BSD License.
 
 The current version of ZendSentry for ZF3 is `3.2.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
 
-#Latest Changes
-- possibility to add extra context to the log event
-- Switch Raven dependency to new official sentry/sentry repository
-- Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
-
-#Important Changes
+# Important Changes
+- 3.2.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
 - 3.0.1: ViewHelper fix
 - 3.0.0: First ZF2 release with latest sentry SDK dependencies and ZF3 compatibility fixes
-- 2.2.1: Update to `sentry/sentry` 1.5.0 and `ravenjs` 3.8.0, Fix: Only detach HttpExceptionStrategy if it exists
-- 2.2.0: Update to `sentry/sentry` 0.21.2
+- 2.2.1: Fix: Only detach HttpExceptionStrategy if it exists
 - 2.0.0: New major version for ZF >=2.5.3
 - 1.5.2: Configurable error messages
 - 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
 - 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
 - 0.3.1: dedicated CLI ExceptionStrategy (credits to Mateusz Mirosławski)
 
-#Introduction
+# Introduction
 
-##What's Sentry?
+## What's Sentry?
 [Sentry](https://www.getsentry.com/welcome/) is an online service to which you can log anything including your 
 exceptions and errors. Sentry creates nice reports in real time and aggregates your logged data for you.
 
-##What's ZendSentry
+## What's ZendSentry
 It is a module that builds the bridge between your Zend Framework 2 application and the Sentry service. It's extremely
 easy to setup and does a lot of things out-of-the-box.
 
@@ -43,7 +38,7 @@ Current features:
 * Raven is registered as a Service
 * override Raven config defaults
 
-#Installation
+# Installation
 
 This module is available on [Packagist](https://packagist.org/packages/cloud-solutions/zend-sentry).
 In your project's `composer.json` use:
@@ -69,7 +64,7 @@ is registered as both error and exception handler, [try it](#try-it) by triggeri
 exceptions. You should instantly see them in your Sentry dashboard. ZendSentry also packages its own ExceptionStrategies
 to make sure, exceptions ZF would otherwise intercept, are logged.
 
-#Manual Usage
+# Manual Usage
 Additonally, the module registers a log event listener on application level. So you can trigger custom log events from
 anywhere in your application.
 
@@ -106,7 +101,7 @@ exceptions manually by using the respective listener directly:
         $eventID = $result->last();
     }
 
-#Using Tags
+# Using Tags
 
 You can also pass your own tags to Sentry. The service will automatically create filtering and sorting for these tags.
 When using the `log` event, you can optionally pass tags like this:
@@ -130,7 +125,7 @@ If using the `logException` event manually, you can also pass along tags:
 
 See how to use tags for automagically logged exceptions below.
 
-#Raven as Service
+# Raven as Service
 
 The module registers the Raven_Client as an application wide service. Usually you don't want to access it directly
 because triggering the event listeners leaves you with cleaner code. One example where the direct usage of Raven can
@@ -154,7 +149,7 @@ You might want to do something like this e.g. in your `AbstractActionController:
         );
     }
 
-#Configuration options
+# Configuration options
 
 Just for the record, a copy of the actual global configuration options:
 
@@ -225,7 +220,7 @@ Just for the record, a copy of the actual global configuration options:
      */
     'raven-config' => array(),
     
-#Try it
+# Try it
 A few ideas how to try the different features from a Controller or View:
     
     // Test logging of PHP errors

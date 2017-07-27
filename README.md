@@ -7,6 +7,7 @@ ZendSentry is released under the New BSD License.
 The current version of ZendSentry for ZF2 is `2.4.0`. It supports Zend Framework >= 2.5.3. For older versions see the legacy branch and tags in the `1.*` series. For ZF3 compatible versions, please install releases in the `3.*` branch.
 
 # Important Changes
+- 3.3.0: Add possibility to pass config options to ravenjs
 - 3.2.0 and 2.4.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
 - 3.0.1: ViewHelper fix
 - 3.0.0: First ZF2 release with latest sentry SDK dependencies and ZF3 compatibility fixes
@@ -37,6 +38,7 @@ Current features:
 * log actions return the Sentry event_id
 * Raven is registered as a Service
 * override Raven config defaults
+* set ravenjs options via config
 
 # Installation
 

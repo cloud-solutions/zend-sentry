@@ -217,7 +217,7 @@ class Module
     protected function setupJavascriptLogging(MvcEvent $event)
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
-        $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.8.0/raven.min.js');
+        $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
     }
@@ -238,4 +238,6 @@ class Module
 
         return $publicKey;
     }
+
+
 }

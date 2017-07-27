@@ -1,10 +1,10 @@
-A Zend Framework 2 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
+A Zend Framework module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
 Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/build.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/build-status/master)
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF3 is `3.1.1`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
+The current version of ZendSentry for ZF3 is `3.2.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
 
 #Latest Changes
 - possibility to add extra context to the log event
@@ -50,7 +50,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.1.1"
+            "cloud-solutions/zend-sentry": "3.2.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

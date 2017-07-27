@@ -16,8 +16,7 @@ The current version of ZendSentry for ZF3 is `3.2.0`. It supports Zend Framework
 - 3.2.0 and 2.4.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
 - 3.0.1: ViewHelper fix
 - 3.0.0: First ZF2 release with latest sentry SDK dependencies and ZF3 compatibility fixes
-- 2.2.1: Update to `sentry/sentry` 1.5.0 and `ravenjs` 3.8.0, Fix: Only detach HttpExceptionStrategy if it exists
-- 2.2.0: Update to `sentry/sentry` 0.21.2
+- 2.2.1: Fix: Only detach HttpExceptionStrategy if it exists
 - 2.0.0: New major version for ZF >=2.5.3
 - 1.5.2: Configurable error messages
 - 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed

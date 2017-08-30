@@ -223,7 +223,7 @@ class Module
         $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         /** @noinspection PhpUndefinedMethodInspection */
-        $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
+        $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s').install()", $publicApiKey));
     }
 
     /**

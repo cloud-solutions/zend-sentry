@@ -4,9 +4,10 @@ Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/c
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF3 is `3.3.1`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
+The current version of ZendSentry for ZF3 is `3.4.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
 
 # Important Changes
+- 3.4.0: Add possibility to switch off usage of raven-js CDN
 - 3.3.0: Add possibility to pass config options to ravenjs
 - 3.2.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
 - 3.0.1: ViewHelper fix
@@ -47,7 +48,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.3.1"
+            "cloud-solutions/zend-sentry": "3.4.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -217,13 +218,20 @@ Just for the record, a copy of the actual global configuration options:
     'handle-javascript-errors' => true,
     
     /**
-     * Set raven config options here.
+     * Should ZendSentry load raven-js via CDN?
+     * If you set this to false you'll need to make sure to load raven-js some other way.
+     */
+    'use-ravenjs-cdn' => true,
+
+    /**
+     * Set raven config options for the getsentry/sentry-php package here.
      * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */
     'raven-config' => array(),
-    
+
     /**
-     * Set ravenjs config options here, will be passed along with json_encode
+     * Set ravenjs config options for the getsentry/raven-js package here.
+     * This will be json encoded and passed to raven-js when doing Raven.install().
      */
     'ravenjs-config' => array(),
     

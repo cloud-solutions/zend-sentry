@@ -217,7 +217,10 @@ class Module
     protected function setupJavascriptLogging(MvcEvent $event)
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
-        $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
+        $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
+        if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
+            $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
+        }
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         $ravenjsConfig = json_encode($this->config['zend-sentry']['ravenjs-config']);
         $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s', %s).install()", $publicApiKey, $ravenjsConfig));

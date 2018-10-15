@@ -1,3 +1,6 @@
+# NB! We're deprecating the 2.* version branch for ZF 2.
+
+
 A Zend Framework module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
 Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/build.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/build-status/master)

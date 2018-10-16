@@ -83,7 +83,6 @@ class Module
         $ravenClient = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
-        /** @noinspection PhpUndefinedMethodInspection */
         $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
         $this->ravenClient = $ravenClient;
         $this->zendSentry = new ZendSentry($ravenClient);
@@ -134,8 +133,7 @@ class Module
     public function getConfig()
     {
         return include __DIR__.'/config/module.config.php';
-    }/** @noinspection PhpUnusedParameterInspection */
-    /** @noinspection PhpUnusedParameterInspection */
+    }
 
     /**
      * Gives us the possibility to write logs to Sentry from anywhere in the application
@@ -162,9 +160,13 @@ class Module
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
             $tags     = $event->getParam('tags', array());
-            $extra   = $event->getParam('extra', array());
-            $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra));
-
+            $extra    = $event->getParam('extra', array());
+            $eventID  = $raven->captureMessage(
+                $message, 
+                array(), 
+                array('tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra)
+            );
+            
             return $eventID;
         }, 2);
     }
@@ -186,13 +188,15 @@ class Module
             $exceptionStrategy = $event->getApplication()->getServiceManager()->get('HttpExceptionStrategy');
             $exceptionStrategy->detach($this->eventManager);
         }
-        
+
         // Check if script is running in console
         $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
         $exceptionStrategy->setDefaultExceptionMessage($this->config['zend-sentry'][(PHP_SAPI == 'cli') ? 'default-exception-console-message' : 'default-exception-message']);
-
+        if ($exceptionStrategy instanceof SentryHttpStrategy && isset($this->config['view_manager']['exception_template'])) {
+            $exceptionStrategy->setExceptionTemplate($this->config['view_manager']['exception_template']);
+        }
         $ravenClient = $this->ravenClient;
 
         // Attach an exception listener for the ZendSentry exception strategy, can be triggered from anywhere else too
@@ -212,12 +216,14 @@ class Module
      */
     protected function setupJavascriptLogging(MvcEvent $event)
     {
-        $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
-        /** @noinspection PhpUndefinedMethodInspection */
-        $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
+        $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
+        $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
+        if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
+            $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
+        }
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
-        /** @noinspection PhpUndefinedMethodInspection */
-        $viewHelper->offsetSetScript(1, sprintf("Raven.config('%s').install()", $publicApiKey));
+        $ravenjsConfig = json_encode($this->config['zend-sentry']['ravenjs-config']);
+        $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s', %s).install()", $publicApiKey, $ravenjsConfig));
     }
 
     /**
@@ -236,4 +242,6 @@ class Module
 
         return $publicKey;
     }
+
+
 }

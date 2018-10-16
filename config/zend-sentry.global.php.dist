@@ -68,10 +68,22 @@ $settings = array(
     'handle-javascript-errors' => true,
 
     /**
-     * Set raven config options here.
+     * Should ZendSentry load raven-js via CDN?
+     * If you set this to false you'll need to make sure to load raven-js some other way.
+     */
+    'use-ravenjs-cdn' => true,
+
+    /**
+     * Set raven config options for the getsentry/sentry-php package here.
      * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */
     'raven-config' => array(),
+
+    /**
+     * Set ravenjs config options for the getsentry/raven-js package here.
+     * This will be json encoded and passed to raven-js when doing Raven.install().
+     */
+    'ravenjs-config' => array(),
 );
 
 /**

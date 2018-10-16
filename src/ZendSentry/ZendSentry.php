@@ -1,13 +1,13 @@
 <?php
 
 /**
- * cloud solutions ZendSentry
+ * Bright Answer ZendSentry
  *
- * This source file is part of the cloud solutions ZendSentry package
+ * This source file is part of the Bright Answer ZendSentry package
  *
  * @package    ZendSentry\ZendSentry
- * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2013, cloud solutions OÜ
+ * @license    MIT License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2018, Bright Answer OÜ
  */
 
 namespace ZendSentry;
@@ -46,7 +46,7 @@ class ZendSentry
      *
      * @return ZendSentry
      */
-    public function registerErrorHandler($callExistingHandler = true, $errorReporting = E_ALL)
+    public function registerErrorHandler($callExistingHandler = true, $errorReporting = E_ALL): ZendSentry
     {
         $this->ravenErrorHandler->registerErrorHandler($callExistingHandler, $errorReporting);
         return $this;
@@ -56,7 +56,7 @@ class ZendSentry
      * @param bool $callExistingHandler
      * @return ZendSentry
      */
-    public function registerExceptionHandler($callExistingHandler = true)
+    public function registerExceptionHandler($callExistingHandler = true): ZendSentry
     {
         $this->ravenErrorHandler->registerExceptionHandler($callExistingHandler);
         return $this;
@@ -66,7 +66,7 @@ class ZendSentry
      * @param int $reservedMemorySize
      * @return ZendSentry
      */
-    public function registerShutdownFunction($reservedMemorySize = 10)
+    public function registerShutdownFunction($reservedMemorySize = 10): ZendSentry
     {
         $this->ravenErrorHandler->registerShutdownFunction($reservedMemorySize);
         return $this;
@@ -75,7 +75,7 @@ class ZendSentry
     /**
      * @param null|RavenErrorHandler $ravenErrorHandler
      */
-    private function setOrLoadRavenErrorHandler($ravenErrorHandler)
+    private function setOrLoadRavenErrorHandler($ravenErrorHandler): void
     {
         if ($ravenErrorHandler !== null) {
             $this->ravenErrorHandler = $ravenErrorHandler;

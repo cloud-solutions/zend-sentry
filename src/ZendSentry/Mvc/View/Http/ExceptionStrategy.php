@@ -1,19 +1,19 @@
 <?php
 
 /**
- * cloud solutions ZendSentry
+ * Bright Answer ZendSentry
  *
- * This source file is part of the cloud solutions ZendSentry package
+ * This source file is part of the Bright Answer ZendSentry package
  *
  * @package    ZendSentry\Mvc\View\Http\ExceptionStrategy
- * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2011, cloud solutions OÜ
+ * @license    MIT License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2016, Bright Answer OÜ
  */
 
 namespace ZendSentry\Mvc\View\Http;
 
+use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
@@ -26,14 +26,14 @@ use Zend\View\Model\ViewModel;
  *
  * @package    ZendSentry\Mvc\View\Http\ExceptionStrategy
  */
-class ExceptionStrategy implements ListenerAggregateInterface
+class ExceptionStrategy extends AbstractListenerAggregate
 {
     /**
      * Display exceptions?
      * @var bool
      */
     protected $displayExceptions = false;
-    
+
     /**
      * Default Exception Message
      * @var string
@@ -44,38 +44,15 @@ class ExceptionStrategy implements ListenerAggregateInterface
      * Name of exception template
      * @var string
      */
-    protected $exceptionTemplate = 'error/index';
+    protected $exceptionTemplate = 'error';
 
     /**
-     * @var \Zend\Stdlib\CallbackHandler[]
+     * {@inheritDoc}
      */
-    protected $listeners = array();
-
-    /**
-     * Attach the aggregate to the specified event manager
-     *
-     * @param  EventManagerInterface $events
-     * @return void
-     */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'prepareExceptionViewModel'));
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'prepareExceptionViewModel'));
-    }
-
-    /**
-     * Detach aggregate listeners from the specified event manager
-     *
-     * @param  EventManagerInterface $events
-     * @return void
-     */
-    public function detach(EventManagerInterface $events)
-    {
-        foreach ($this->listeners as $index => $listener) {
-            if ($events->detach($listener)) {
-                unset($this->listeners[$index]);
-            }
-        }
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'prepareExceptionViewModel']);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'prepareExceptionViewModel']);
     }
 
     /**
@@ -84,7 +61,7 @@ class ExceptionStrategy implements ListenerAggregateInterface
      * @param  bool $displayExceptions
      * @return ExceptionStrategy
      */
-    public function setDisplayExceptions($displayExceptions)
+    public function setDisplayExceptions($displayExceptions): ExceptionStrategy
     {
         $this->displayExceptions = (bool) $displayExceptions;
         return $this;
@@ -95,19 +72,17 @@ class ExceptionStrategy implements ListenerAggregateInterface
      *
      * @return bool
      */
-    public function displayExceptions()
+    public function displayExceptions(): bool
     {
         return $this->displayExceptions;
     }
 
     /**
      * Set the default exception message
-     *
      * @param string $defaultExceptionMessage
-     *
-     * @return $this
+     * @return self
      */
-    public function setDefaultExceptionMessage($defaultExceptionMessage)
+    public function setDefaultExceptionMessage($defaultExceptionMessage): self
     {
         $this->defaultExceptionMessage = $defaultExceptionMessage;
         return $this;
@@ -119,7 +94,7 @@ class ExceptionStrategy implements ListenerAggregateInterface
      * @param  string $exceptionTemplate
      * @return ExceptionStrategy
      */
-    public function setExceptionTemplate($exceptionTemplate)
+    public function setExceptionTemplate($exceptionTemplate): ExceptionStrategy
     {
         $this->exceptionTemplate = (string) $exceptionTemplate;
         return $this;
@@ -130,7 +105,7 @@ class ExceptionStrategy implements ListenerAggregateInterface
      *
      * @return string
      */
-    public function getExceptionTemplate()
+    public function getExceptionTemplate(): string
     {
         return $this->exceptionTemplate;
     }
@@ -141,7 +116,7 @@ class ExceptionStrategy implements ListenerAggregateInterface
      * @param  MvcEvent $e
      * @return void
      */
-    public function prepareExceptionViewModel(MvcEvent $e)
+    public function prepareExceptionViewModel(MvcEvent $e): void
     {
         // Do nothing if no error in the event
         $error = $e->getError();
@@ -166,20 +141,22 @@ class ExceptionStrategy implements ListenerAggregateInterface
             case Application::ERROR_EXCEPTION:
             default:
                 // check if there really is an exception
-                // zf2 also throw normal errors, for example: error-route-unauthorized
+                // ZF also throws normal errors, for example: error-route-unauthorized
                 // if there is no exception we have nothing to log
                 if ($e->getParam('exception') == null) {
                     return;
                 }
 
                 // Log exception to sentry by triggering an exception event
-                $eventID = $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $e->getParam('exception')));
+                $eventID = $e->getApplication()->getEventManager()->trigger('logException', $this, ['exception' => $e->getParam('exception')]);
 
-                $model = new ViewModel(array(
+                $model = new ViewModel(
+                    [
                     'message'            => sprintf($this->defaultExceptionMessage, $eventID->last()),
                     'exception'          => $e->getParam('exception'),
                     'display_exceptions' => $this->displayExceptions(),
-                ));
+                    ]
+                );
                 $model->setTemplate($this->getExceptionTemplate());
                 $e->setResult($model);
 
@@ -189,10 +166,8 @@ class ExceptionStrategy implements ListenerAggregateInterface
                     $response->setStatusCode(500);
                     $e->setResponse($response);
                 } else {
-                    /** @noinspection PhpUndefinedMethodInspection */
                     $statusCode = $response->getStatusCode();
                     if ($statusCode === 200) {
-                        /** @noinspection PhpUndefinedMethodInspection */
                         $response->setStatusCode(500);
                     }
                 }

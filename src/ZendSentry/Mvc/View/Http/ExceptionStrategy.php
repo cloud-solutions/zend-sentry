@@ -7,7 +7,7 @@
  *
  * @package    ZendSentry\Mvc\View\Http\ExceptionStrategy
  * @license    MIT License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2016, cloud solutions OÜ
+ * @copyright  Copyright (c) 2016, Bright Answer OÜ
  */
 
 namespace ZendSentry\Mvc\View\Http;

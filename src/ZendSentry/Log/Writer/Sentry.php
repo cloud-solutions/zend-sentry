@@ -1,13 +1,13 @@
 <?php
 
 /**
- * cloud solutions ZendSentry
+ * Bright Answer ZendSentry
  *
- * This source file is part of the cloud solutions ZendSentry package
+ * This source file is part of the Bright Answer ZendSentry package
  *
  * @package    ZendSentry\Log\Writer\Sentry
- * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2013, cloud solutions OÜ
+ * @license    MIT License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2018, Bright Answer OÜ
  */
 
 namespace ZendSentry\Log\Writer;

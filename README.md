@@ -2,7 +2,7 @@ A Zend Framework 3 module that lets you log exceptions, errors or whatever you w
 
 Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/build.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/build-status/master)
 
-ZendSentry is released under the New BSD License.
+ZendSentry is released under the MIT License.
 
 The current version of ZendSentry for ZF3 is `3.5.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series. **NB!** We are not supporting the old branches anymore.
 

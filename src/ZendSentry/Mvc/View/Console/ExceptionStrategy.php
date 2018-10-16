@@ -1,13 +1,13 @@
 <?php
 
 /**
- * cloud solutions ZendSentry
+ * Bright Answer ZendSentry
  *
- * This source file is part of the cloud solutions ZendSentry package
+ * This source file is part of the Bright Answer ZendSentry package
  *
  * @package    ZendSentry\Mvc\View\Console\ExceptionStrategy
- * @license    New BSD License {@link /docs/LICENSE}
- * @copyright  Copyright (c) 2016, cloud solutions OÜ
+ * @license    MIT License {@link /docs/LICENSE}
+ * @copyright  Copyright (c) 2016, Bright Answer OÜ
  */
 
 namespace ZendSentry\Mvc\View\Console;

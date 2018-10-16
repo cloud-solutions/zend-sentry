@@ -30,7 +30,7 @@ class Module
     /**
      * Translates Zend Framework log levels to Raven log levels.
      */
-    private $logLevels = array(
+    private $logLevels = [
         7 => Raven::DEBUG,
         6 => Raven::INFO,
         5 => Raven::INFO,
@@ -39,7 +39,7 @@ class Module
         2 => Raven::FATAL,
         1 => Raven::FATAL,
         0 => Raven::FATAL,
-    );
+    ];
 
     /**
      * @var Raven $ravenClient
@@ -76,13 +76,14 @@ class Module
         if (isset($this->config['zend-sentry']['raven-config']) && is_array($this->config['zend-sentry']['raven-config'])) {
             $ravenConfig = $this->config['zend-sentry']['raven-config'];
         } else {
-            $ravenConfig = array();
+            $ravenConfig = [];
         }
 
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
         $ravenClient = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
+        /** @noinspection PhpUndefinedMethodInspection */
         $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
         $this->ravenClient = $ravenClient;
         $this->zendSentry = new ZendSentry($ravenClient);
@@ -122,9 +123,13 @@ class Module
      */
     public function getAutoloaderConfig()
     {
-        return array('Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-            __NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
-        )));
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
+                __NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
+                ]
+            ]
+        ];
     }
 
     /**
@@ -159,9 +164,9 @@ class Module
             $message  = $event->getParam('message', 'No message provided');
             $priority = (int) $event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
-            $tags     = $event->getParam('tags', array());
-            $extra   = $event->getParam('extra', array());
-            $eventID = $raven->captureMessage($message, array(), array('tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra)
+            $tags     = $event->getParam('tags', []);
+            $extra   = $event->getParam('extra', []);
+            $eventID = $raven->captureMessage($message, [], ['tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra]
 );
             return $eventID;
         }, 2);
@@ -199,9 +204,8 @@ class Module
         $this->eventManager->getSharedManager()->attach('*', 'logException', function($event) use ($ravenClient) {
             /** @var $event MvcEvent */
             $exception = $event->getParam('exception');
-            $tags = $event->getParam('tags', array());
-            $eventID = $ravenClient->captureException($exception, array('tags' => $tags));
-            return $eventID;
+            $tags = $event->getParam('tags', []);
+            return $ravenClient->captureException($exception, ['tags' => $tags]);
         });
     }
 
@@ -213,14 +217,14 @@ class Module
     protected function setupJavascriptLogging(MvcEvent $event)
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
-        /** @noinspection PhpUndefinedMethodInspection */
         $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
         if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
-            $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
+            /** @noinspection PhpUndefinedMethodInspection */
+            $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.26.2/raven.min.js');
         }
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
-        /** @noinspection PhpUndefinedMethodInspection */
         $ravenjsConfig = json_encode($this->config['zend-sentry']['ravenjs-config']);
+        /** @noinspection PhpUndefinedMethodInspection */
         $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s', %s).install()", $publicApiKey, $ravenjsConfig));
     }
 
@@ -230,14 +234,17 @@ class Module
      */
     private function convertKeyToPublic($key)
     {
-        // Find private part
+        // If new DSN is configured, no converting is needed
+        if (substr_count($key, ':') == 1) {
+            return $key;
+        }
+        // If legacy DSN with private part is configured...
+        // ...find private part
         $start = strpos($key, ':', 6);
         $end = strpos($key, '@');
         $privatePart = substr($key, $start, $end - $start);
 
-        // Replace it with an empty string
-        $publicKey = str_replace($privatePart, '', $key);
-
-        return $publicKey;
+        // ... replace it with an empty string
+        return str_replace($privatePart, '', $key);
     }
 }

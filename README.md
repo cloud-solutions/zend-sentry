@@ -1,28 +1,15 @@
-A Zend Framework module that lets you log exceptions, errors or whatever you wish to the Sentry service.
+A Zend Framework 3 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
 
 Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/build.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/build-status/master)
 
 ZendSentry is released under the New BSD License.
 
-The current version of ZendSentry for ZF3 is `3.4.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series.
+The current version of ZendSentry for ZF3 is `3.5.0`. It supports Zend Framework >= 3.0. For older versions of Zend Framework see tags in the 1.* series as well as 2.* series. **Please note** that we are no longer supporting these older branches.
 
-#Latest Changes
-- possibility to add extra context to the log event
-- Switch Raven dependency to new official sentry/sentry repository
-- Fix problem introduced by ZF BC break in ZF version 2.5.3 and branch of legacy branch
-
-# Important Changes
+# Recent important Changes
+- 3.5.0: Add support for new 
 - 3.4.0: Add possibility to switch off usage of raven-js CDN
 - 3.3.0: Add possibility to pass config options to ravenjs
-- 3.2.0: Upgrade dependencies to `sentry/sentry` 1.7.0 and `ravenjs` 3.17.0
-- 3.0.1: ViewHelper fix
-- 3.0.0: First ZF2 release with latest sentry SDK dependencies and ZF3 compatibility fixes
-- 2.2.1: Fix: Only detach HttpExceptionStrategy if it exists
-- 2.0.0: New major version for ZF >=2.5.3
-- 1.5.2: Configurable error messages
-- 1.4.0: Raven configuration can now be overwritten through ZendSentry configuration if needed
-- 1.2.0: supports tags, every logging action returns the Sentry event_id, Raven is registered as Service
-- 0.3.1: dedicated CLI ExceptionStrategy (credits to Mateusz Mirosławski)
 
 # Introduction
 
@@ -34,7 +21,8 @@ exceptions and errors. Sentry creates nice reports in real time and aggregates y
 It is a module that builds the bridge between your Zend Framework 2 application and the Sentry service. It's extremely
 easy to setup and does a lot of things out-of-the-box.
 
-Current features:
+Features and capabilities:
+
 * log uncatched PHP exceptions to Sentry automagically
 * log PHP errors to Sentry automagically
 * log uncatched Javascript errors to Sentry automagically
@@ -45,6 +33,7 @@ Current features:
 * Raven is registered as a Service
 * override Raven config defaults
 * pass config options to ravenjs
+* configure error messages
 
 # Installation
 
@@ -53,7 +42,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.4.0"
+            "cloud-solutions/zend-sentry": "3.5.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -156,7 +145,6 @@ You might want to do something like this e.g. in your `AbstractActionController:
             ]
         );
     }
-
 
 # Configuration options
 

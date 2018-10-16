@@ -1,4 +1,4 @@
-A Zend Framework 3 module that lets you log exceptions, errors or whatever you wish to the Sentry service.
+A Zend Framework 3 module that lets you log exceptions, errors or whatever you wish to the Sentry.io service.
 
 Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/build.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/build-status/master)
 
@@ -7,7 +7,7 @@ ZendSentry is released under the New BSD License.
 The current version of ZendSentry for ZF3 is `3.5.0`. It supports Zend Framework >= 3.0. For older versions of Zend Framework see tags in the 1.* series as well as 2.* series. **Please note** that we are no longer supporting these older branches.
 
 # Recent important Changes
-- 3.5.0: Add support for new 
+- 3.5.0: Add support for new DSN, deprecate old DSN use for later removal
 - 3.4.0: Add possibility to switch off usage of raven-js CDN
 - 3.3.0: Add possibility to pass config options to ravenjs
 
@@ -18,7 +18,7 @@ The current version of ZendSentry for ZF3 is `3.5.0`. It supports Zend Framework
 exceptions and errors. Sentry creates nice reports in real time and aggregates your logged data for you.
 
 ## What's ZendSentry
-It is a module that builds the bridge between your Zend Framework 2 application and the Sentry service. It's extremely
+It is a module that builds the bridge between your Zend Framework 3 application and the Sentry.io service. It's extremely
 easy to setup and does a lot of things out-of-the-box.
 
 Features and capabilities:

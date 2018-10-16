@@ -1,10 +1,10 @@
 {
     "name": "cloud-solutions/zend-sentry",
-    "description": "A Zend Framework module that lets you log to the Sentry service.",
+    "description": "A Zend Framework 3 module that lets you log to the Sentry.io service.",
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
     "homepage": "https://github.com/cloud-solutions/zend-sentry",
     "type": "library",
-    "version": "3.4.0",
+    "version": "3.5.0",
     "license": "New BSD License",
     "authors": [
         {
@@ -13,8 +13,8 @@
         }
     ],
     "require": {
-        "php": "^5.5 || ^7.0",
-        "sentry/sentry": "^1.7.0"
+        "php": "^5.6 || ^7.0",
+        "sentry/sentry": "^1.9.2"
     },
     "conflict": {
         "zendframework/zendframework": "<3.0.0"

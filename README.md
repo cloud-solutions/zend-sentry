@@ -98,7 +98,7 @@ exceptions manually by using the respective listener directly:
         $eventID = $result->last();
     }
 
-# Using Tags
+#Using Tags
 
 You can also pass your own tags to Sentry. The service will automatically create filtering and sorting for these tags.
 When using the `log` event, you can optionally pass tags like this:
@@ -145,6 +145,7 @@ You might want to do something like this e.g. in your `AbstractActionController:
             ]
         );
     }
+
 
 # Configuration options
 

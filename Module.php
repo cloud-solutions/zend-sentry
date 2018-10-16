@@ -164,11 +164,11 @@ class Module
             $tags     = $event->getParam('tags', array());
             $extra    = $event->getParam('extra', array());
             $eventID  = $raven->captureMessage(
-                $message, 
-                array(), 
+                $message,
+                array(),
                 array('tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra)
             );
-            
+
             return $eventID;
         }, 2);
     }
@@ -218,17 +218,16 @@ class Module
      */
     protected function setupJavascriptLogging(MvcEvent $event)
     {
-        $viewHelper = $event->getApplication()->getServiceManager()->get('viewhelpermanager')->get('headscript');
-        /** @noinspection PhpUndefinedMethodInspection */
-        $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
         $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
+        /** @noinspection PhpUndefinedMethodInspection */
         $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
         if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
             $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.17.0/raven.min.js');
         }
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         /** @noinspection PhpUndefinedMethodInspection */
-        $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s').install()", $publicApiKey));
+        $ravenjsConfig = json_encode($this->config['zend-sentry']['ravenjs-config']);
+        $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s', %s).install()", $publicApiKey, $ravenjsConfig));
     }
 
     /**

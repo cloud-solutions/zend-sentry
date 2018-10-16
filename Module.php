@@ -64,7 +64,7 @@ class Module
     /**
      * @param MvcEvent $event
      */
-    public function onBootstrap(MvcEvent $event)
+    public function onBootstrap(MvcEvent $event): void
     {
         // Setup RavenClient (provided by Sentry) and Sentry (provided by this module)
         $this->config = $event->getApplication()->getServiceManager()->get('Config');
@@ -73,7 +73,7 @@ class Module
             return;
         }
 
-        if (isset($this->config['zend-sentry']['raven-config']) && is_array($this->config['zend-sentry']['raven-config'])) {
+        if (isset($this->config['zend-sentry']['raven-config']) && \is_array($this->config['zend-sentry']['raven-config'])) {
             $ravenConfig = $this->config['zend-sentry']['raven-config'];
         } else {
             $ravenConfig = [];
@@ -103,7 +103,7 @@ class Module
 
         // If ZendSentry is configured to log errors, register it as error handler
         if ($this->config['zend-sentry']['handle-errors']) {
-            $errorReportingLevel = (isset($this->config['zend-sentry']['error-reporting'])) ? $this->config['zend-sentry']['error-reporting'] : -1;
+            $errorReportingLevel = $this->config['zend-sentry']['error-reporting'] ?? -1;
             $this->zendSentry->registerErrorHandler($this->config['zend-sentry']['call-existing-error-handler'], $errorReportingLevel);
         }
 
@@ -121,7 +121,7 @@ class Module
     /**
      * @return array
      */
-    public function getAutoloaderConfig()
+    public function getAutoloaderConfig(): array
     {
         return [
             'Zend\Loader\StandardAutoloader' => [
@@ -147,7 +147,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupBasicLogging(MvcEvent $event)
+    protected function setupBasicLogging(MvcEvent $event): void
     {
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
@@ -156,8 +156,8 @@ class Module
 
         $sharedManager->attach('*', 'log', function($event) use ($raven, $logLevels) {
             /** @var $event MvcEvent */
-            if (is_object($event->getTarget())) {
-                $target = get_class($event->getTarget());
+            if (\is_object($event->getTarget())) {
+                $target = \get_class($event->getTarget());
             } else {
                 $target = (string) $event->getTarget();
             }
@@ -178,7 +178,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupExceptionLogging(MvcEvent $event)
+    protected function setupExceptionLogging(MvcEvent $event): void
     {
         // Register Sentry as exception handler for exception that bubble up to the top
         $this->zendSentry->registerExceptionHandler($this->config['zend-sentry']['call-existing-exception-handler']);
@@ -191,7 +191,7 @@ class Module
         }
 
         // Check if script is running in console
-        $exceptionStrategy = (PHP_SAPI == 'cli') ? (new SentryConsoleStrategy()) : (new SentryHttpStrategy());
+        $exceptionStrategy = (PHP_SAPI == 'cli') ? new SentryConsoleStrategy() : new SentryHttpStrategy();
         $exceptionStrategy->attach($this->eventManager);
         $exceptionStrategy->setDisplayExceptions($this->config['zend-sentry']['display-exceptions']);
         $exceptionStrategy->setDefaultExceptionMessage($this->config['zend-sentry'][(PHP_SAPI == 'cli') ? 'default-exception-console-message' : 'default-exception-message']);
@@ -214,7 +214,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupJavascriptLogging(MvcEvent $event)
+    protected function setupJavascriptLogging(MvcEvent $event): void
     {
         $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
         $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
@@ -232,7 +232,7 @@ class Module
      * @param string $key
      * @return string $publicKey
      */
-    private function convertKeyToPublic($key)
+    private function convertKeyToPublic($key): string
     {
         // If new DSN is configured, no converting is needed
         if (substr_count($key, ':') == 1) {

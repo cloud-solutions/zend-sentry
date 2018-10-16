@@ -64,8 +64,8 @@ EOT;
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'prepareExceptionViewModel'));
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'prepareExceptionViewModel'));
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'prepareExceptionViewModel']);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'prepareExceptionViewModel']);
     }
 
     /**
@@ -74,7 +74,7 @@ EOT;
      * @param  bool $displayExceptions
      * @return ExceptionStrategy
      */
-    public function setDisplayExceptions($displayExceptions)
+    public function setDisplayExceptions($displayExceptions): ExceptionStrategy
     {
         $this->displayExceptions = (bool) $displayExceptions;
         return $this;
@@ -85,7 +85,7 @@ EOT;
      *
      * @return bool
      */
-    public function displayExceptions()
+    public function displayExceptions(): bool
     {
         return $this->displayExceptions;
     }
@@ -95,7 +95,7 @@ EOT;
      *
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -105,7 +105,7 @@ EOT;
      * @param string $defaultExceptionMessage
      * @return self
      */
-    public function setDefaultExceptionMessage($defaultExceptionMessage)
+    public function setDefaultExceptionMessage($defaultExceptionMessage): self
     {
         $this->defaultExceptionMessage = $defaultExceptionMessage;
         return $this;
@@ -131,7 +131,7 @@ EOT;
      * @param string|callable  $message
      * @return ExceptionStrategy
      */
-    public function setMessage($message)
+    public function setMessage($message): ExceptionStrategy
     {
         $this->message = $message;
         return $this;
@@ -143,7 +143,7 @@ EOT;
      * @param  MvcEvent $e
      * @return void
      */
-    public function prepareExceptionViewModel(MvcEvent $e)
+    public function prepareExceptionViewModel(MvcEvent $e): void
     {
         // Do nothing if no error in the event
         $error = $e->getError();
@@ -171,15 +171,15 @@ EOT;
                 $exception = $e->getParam('exception');
 
                 // Log exception to sentry by triggering an exception event
-                $e->getApplication()->getEventManager()->trigger('logException', $this, array('exception' => $exception));
+                $e->getApplication()->getEventManager()->trigger('logException', $this, ['exception' => $exception]);
 
-                if (is_callable($this->message)) {
+                if (\is_callable($this->message)) {
                     $callback = $this->message;
                     $message = (string) $callback($exception, $this->displayExceptions);
                 } elseif ($this->displayExceptions && $exception instanceof \Exception) {
                     /* @var $exception \Exception */
                     $message = str_replace(
-                        array(
+                        [
                             ':className',
                             ':message',
                             ':code',
@@ -187,15 +187,15 @@ EOT;
                             ':line',
                             ':stack',
                             ':previous',
-                        ), array(
-                        get_class($exception),
+                        ], [
+                        \get_class($exception),
                         $exception->getMessage(),
                         $exception->getCode(),
                         $exception->getFile(),
                         $exception->getLine(),
                         $exception->getTraceAsString(),
                         $exception->getPrevious(),
-                    ),
+                    ],
                         $this->message
                     );
                 } else {

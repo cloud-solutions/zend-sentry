@@ -23,7 +23,7 @@ class Sentry extends AbstractWriter
     /**
      * Translates Zend Framework log levels to Raven log levels.
      */
-    private $logLevels = array(
+    private $logLevels = [
         'DEBUG'     => Raven::DEBUG,
         'INFO'      => Raven::INFO,
         'NOTICE'    => Raven::INFO,
@@ -32,7 +32,7 @@ class Sentry extends AbstractWriter
         'CRIT'      => Raven::FATAL,
         'ALERT'     => Raven::FATAL,
         'EMERG'     => Raven::FATAL,
-    );
+    ];
 
     protected $raven;
 
@@ -56,9 +56,9 @@ class Sentry extends AbstractWriter
      */
     protected function doWrite(array $event)
     {
-        $extra = array();
+        $extra = [];
         $extra['timestamp'] = $event['timestamp'];
-        $eventID = $this->raven->captureMessage($event['message'], array(), $this->logLevels[$event['priorityName']], false, $event['extra']);
+        $eventID = $this->raven->captureMessage($event['message'], [], $this->logLevels[$event['priorityName']], false, $event['extra']);
 
         return $eventID;
     }

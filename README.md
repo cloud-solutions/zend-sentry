@@ -18,10 +18,10 @@ The current version of ZendSentry for ZF3 is `3.5.0`. It supports Zend Framework
 exceptions and errors. Sentry creates nice reports in real time and aggregates your logged data for you.
 
 ## What's ZendSentry
-It is a module that builds the bridge between your Zend Framework 2 application and the Sentry service. It's extremely
+It is a module that builds the bridge between your Zend Framework 3 application and the Sentry.io service. It's extremely
 easy to setup and does a lot of things out-of-the-box.
 
-Current features and capabilities:
+Features and capabilities:
 
 * log uncatched PHP exceptions to Sentry automagically
 * log PHP errors to Sentry automagically
@@ -33,6 +33,7 @@ Current features and capabilities:
 * Raven is registered as a Service
 * override Raven config defaults
 * pass config options to ravenjs
+* configure error messages
 
 # Installation
 
@@ -144,6 +145,7 @@ You might want to do something like this e.g. in your `AbstractActionController:
             ]
         );
     }
+
 
 # Configuration options
 

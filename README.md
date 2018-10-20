@@ -1,6 +1,8 @@
 A Zend Framework 3 module that lets you log exceptions, errors or whatever you wish to the Sentry.io service.
 
-Scrutizier analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://travis-ci.org/cloud-solutions/zend-sentry.svg?branch=master)](https://travis-ci.org/cloud-solutions/zend-sentry)
+Static analysis: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) 
+
+Travis: [![Build Status](https://travis-ci.org/cloud-solutions/zend-sentry.svg?branch=master)](https://travis-ci.org/cloud-solutions/zend-sentry)
 
 ZendSentry is released under the MIT License.
 

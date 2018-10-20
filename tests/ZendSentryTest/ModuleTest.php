@@ -33,7 +33,7 @@ class ModuleTest extends TestCase
         $expectedConfig = [
             StandardAutoloader::class => [
                 'namespaces' => [
-                    'ZendSentry' => realpath(__DIR__. '/../../src/ZendSentry')
+                    'ZendSentry' => realpath(__DIR__.'/../../src/ZendSentry')
                 ]
             ]
         ];

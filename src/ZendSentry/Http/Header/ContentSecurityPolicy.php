@@ -3,12 +3,16 @@
 
 namespace ZendSentry\Http\Header;
 
+use Zend\Http\Header\Exception;
+use Zend\Http\Header\ContentSecurityPolicy as ZendCSP;
+use Zend\Http\Header\MultipleHeaderInterface;
+
 /**
  * Content Security Policy Header
  *
  * @link http://www.w3.org/TR/CSP/
  */
-class ContentSecurityPolicy extends \Zend\Http\Header\ContentSecurityPolicy
+class ContentSecurityPolicy extends ZendCSP implements MultipleHeaderInterface
 {
     public const KEY_CSP = 'csp';
 
@@ -37,7 +41,9 @@ class ContentSecurityPolicy extends \Zend\Http\Header\ContentSecurityPolicy
     private static $nonce;
 
     /**
-     * ContentSecurityPolicy constructor.*
+     * ContentSecurityPolicy constructor.
+     *
+     * @param Config $config
      */
     public function __construct()
     {
@@ -55,6 +61,26 @@ class ContentSecurityPolicy extends \Zend\Http\Header\ContentSecurityPolicy
             self::$nonce = base64_encode(random_bytes(20));
         }
         return self::$nonce;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return string
+     */
+    public function toStringMultipleHeaders(array $headers): string
+    {
+        $headerLine = $this->toString();
+        /* @var $header ZendCSP */
+        foreach ($headers as $header) {
+            if (! $header instanceof ZendCSP) {
+                throw new Exception\RuntimeException(
+                    'The ContentSecurityPolicy multiple header implementation can only accept an array of ContentSecurityPolicy headers'
+                );
+            }
+            $headerLine .= "\n" . $header->toString();
+        }
+        return $headerLine;
     }
 
     /**

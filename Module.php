@@ -13,7 +13,9 @@
 namespace ZendSentry;
 
 use Zend\EventManager\EventManager;
+use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
+use ZendSentry\Http\Header\ContentSecurityPolicy;
 use ZendSentry\Mvc\View\Http\ExceptionStrategy as SentryHttpStrategy;
 use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
 use Zend\Mvc\View\Http\ExceptionStrategy;
@@ -90,6 +92,12 @@ class Module
 
         // Get the eventManager and set it as a member for convenience
         $this->eventManager = $event->getApplication()->getEventManager();
+
+        // Add ZendSentry's own CSP header
+        /** @var Response $response */
+        $response = $event->getResponse();
+        $headers = $response->getHeaders();
+        $headers->addHeader(new ContentSecurityPolicy());
 
         // If ZendSentry is configured to use the custom logger, attach the listener
         if ($this->config['zend-sentry']['attach-log-listener']) {

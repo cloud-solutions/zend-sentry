@@ -31,6 +31,11 @@ class ZendSentry
     private $ravenErrorHandler;
 
     /**
+     * @var string $nonce
+     */
+    private static $nonce;
+
+    /**
      * @param RavenClient $ravenClient
      * @param RavenErrorHandler $ravenErrorHandler
      */
@@ -82,5 +87,21 @@ class ZendSentry
         } else {
             $this->ravenErrorHandler = new RavenErrorHandler($this->ravenClient);
         }
+    }
+
+    /**
+     * @param string $nonce
+     */
+    public static function setCSPNonce(string $nonce): void
+    {
+        self::$nonce = $nonce;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCSPNonce(): ?string
+    {
+        return self::$nonce;
     }
 }

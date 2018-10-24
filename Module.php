@@ -14,6 +14,7 @@ namespace ZendSentry;
 
 use Zend\EventManager\EventManager;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
 use Zend\View\Helper\HeadScript;
 use ZendSentry\Mvc\View\Http\ExceptionStrategy as SentryHttpStrategy;
 use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
@@ -84,8 +85,10 @@ class Module
         $ravenClient = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
-        /** @noinspection PhpUndefinedMethodInspection */
-        $event->getApplication()->getServiceManager()->setService('raven', $ravenClient);
+        /** @var ServiceManager $serviceManager */
+        $serviceManager = $event->getApplication()->getServiceManager();
+        $serviceManager->setService('raven', $ravenClient);
+
         $this->ravenClient = $ravenClient;
         $this->zendSentry = new ZendSentry($ravenClient);
 

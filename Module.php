@@ -14,6 +14,7 @@ namespace ZendSentry;
 
 use Zend\EventManager\EventManager;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Helper\HeadScript;
 use ZendSentry\Mvc\View\Http\ExceptionStrategy as SentryHttpStrategy;
 use ZendSentry\Mvc\View\Console\ExceptionStrategy as SentryConsoleStrategy;
 use Zend\Mvc\View\Http\ExceptionStrategy;
@@ -216,16 +217,20 @@ class Module
      */
     protected function setupJavascriptLogging(MvcEvent $event): void
     {
-        $viewHelper = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
+        /** @var HeadScript $headScript */
+        $headScript = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
         $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
+
         if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $viewHelper->offsetSetFile(0, '//cdn.ravenjs.com/3.26.2/raven.min.js');
+            $headScript->offsetSetFile(0, '//cdn.ravenjs.com/3.26.2/raven.min.js');
         }
+
         $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         $ravenjsConfig = json_encode($this->config['zend-sentry']['ravenjs-config']);
-        /** @noinspection PhpUndefinedMethodInspection */
-        $viewHelper->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s', %s).install()", $publicApiKey, $ravenjsConfig));
+
+        $attributes = \is_null($this->zendSentry->getCSPNonce()) ? [] : ['nonce' => $this->zendSentry->getCSPNonce()];
+
+        $headScript->offsetSetScript(1, sprintf("if (typeof Raven !== 'undefined') Raven.config('%s', %s).install()", $publicApiKey, $ravenjsConfig), 'text/javascript', $attributes);
     }
 
     /**

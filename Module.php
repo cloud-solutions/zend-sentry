@@ -82,6 +82,11 @@ class Module
         }
 
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
+
+        // Do preliminary checks only, Raven will parse the string further
+        if (!$sentryApiKey || '' === $sentryApiKey || \is_null($sentryApiKey)) {
+            throw new \Raven_Exception('Missing Sentry API key.');
+        }
         $ravenClient  = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service

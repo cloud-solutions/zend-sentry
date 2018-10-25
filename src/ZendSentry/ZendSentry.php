@@ -80,7 +80,7 @@ class ZendSentry
     /**
      * @param null|RavenErrorHandler $ravenErrorHandler
      */
-    private function setOrLoadRavenErrorHandler($ravenErrorHandler): void
+    private function setOrLoadRavenErrorHandler($ravenErrorHandler)
     {
         if ($ravenErrorHandler !== null) {
             $this->ravenErrorHandler = $ravenErrorHandler;
@@ -92,7 +92,7 @@ class ZendSentry
     /**
      * @param string $nonce
      */
-    public static function setCSPNonce(string $nonce): void
+    public static function setCSPNonce(string $nonce)
     {
         self::$nonce = $nonce;
     }

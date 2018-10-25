@@ -49,7 +49,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
     /**
      * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events, $priority = 1): void
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'prepareExceptionViewModel']);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'prepareExceptionViewModel']);
@@ -116,7 +116,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
      * @param  MvcEvent $e
      * @return void
      */
-    public function prepareExceptionViewModel(MvcEvent $e): void
+    public function prepareExceptionViewModel(MvcEvent $e)
     {
         // Do nothing if no error in the event
         $error = $e->getError();

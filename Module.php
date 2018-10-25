@@ -66,7 +66,7 @@ class Module
     /**
      * @param MvcEvent $event
      */
-    public function onBootstrap(MvcEvent $event): void
+    public function onBootstrap(MvcEvent $event)
     {
         // Setup RavenClient (provided by Sentry) and Sentry (provided by this module)
         $this->config = $event->getApplication()->getServiceManager()->get('Config');
@@ -151,7 +151,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupBasicLogging(MvcEvent $event): void
+    protected function setupBasicLogging(MvcEvent $event)
     {
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
@@ -185,7 +185,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupExceptionLogging(MvcEvent $event): void
+    protected function setupExceptionLogging(MvcEvent $event)
     {
         // Register Sentry as exception handler for exception that bubble up to the top
         $this->zendSentry->registerExceptionHandler($this->config['zend-sentry']['call-existing-exception-handler']);
@@ -223,7 +223,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupJavascriptLogging(MvcEvent $event): void
+    protected function setupJavascriptLogging(MvcEvent $event)
     {
         /** @var HeadScript $headScript */
         $headScript    = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');

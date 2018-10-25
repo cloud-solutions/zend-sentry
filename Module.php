@@ -159,7 +159,7 @@ class Module
         $logLevels     = $this->logLevels;
 
         $sharedManager->attach(
-            '*', 'log', function ($event) use ($raven, $logLevels) {
+            '*', 'log', function($event) use ($raven, $logLevels) {
             /** @var $event MvcEvent */
             if (\is_object($event->getTarget())) {
                 $target = \get_class($event->getTarget());

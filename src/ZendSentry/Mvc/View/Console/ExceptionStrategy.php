@@ -29,18 +29,21 @@ class ExceptionStrategy extends AbstractListenerAggregate
 {
     /**
      * Display exceptions?
+     *
      * @var bool
      */
     protected $displayExceptions = false;
 
     /**
      * Default Exception Message
+     *
      * @var string
      */
     protected $defaultExceptionMessage = "Oh no. Something went wrong, but we have been notified.\n";
 
     /**
      * A template for message to show in console when an exception has occurred.
+     *
      * @var string|callable
      */
     protected $message = <<<EOT
@@ -72,11 +75,12 @@ EOT;
      * Flag: display exceptions in error pages?
      *
      * @param  bool $displayExceptions
+     *
      * @return ExceptionStrategy
      */
     public function setDisplayExceptions($displayExceptions): ExceptionStrategy
     {
-        $this->displayExceptions = (bool) $displayExceptions;
+        $this->displayExceptions = (bool)$displayExceptions;
         return $this;
     }
 
@@ -101,17 +105,6 @@ EOT;
     }
 
     /**
-     * Set the default exception message
-     * @param string $defaultExceptionMessage
-     * @return self
-     */
-    public function setDefaultExceptionMessage($defaultExceptionMessage): self
-    {
-        $this->defaultExceptionMessage = $defaultExceptionMessage;
-        return $this;
-    }
-
-    /**
      * Set template for message that will be shown in Console.
      * The message can be a string (template) or a callable (i.e. a closure).
      *
@@ -128,7 +121,8 @@ EOT;
      *   :line        - the line where the exception has been thrown
      *   :stack       - full exception stack
      *
-     * @param string|callable  $message
+     * @param string|callable $message
+     *
      * @return ExceptionStrategy
      */
     public function setMessage($message): ExceptionStrategy
@@ -138,9 +132,23 @@ EOT;
     }
 
     /**
+     * Set the default exception message
+     *
+     * @param string $defaultExceptionMessage
+     *
+     * @return self
+     */
+    public function setDefaultExceptionMessage($defaultExceptionMessage): self
+    {
+        $this->defaultExceptionMessage = $defaultExceptionMessage;
+        return $this;
+    }
+
+    /**
      * Create an exception view model, and set the console status code
      *
      * @param  MvcEvent $e
+     *
      * @return void
      */
     public function prepareExceptionViewModel(MvcEvent $e)
@@ -175,7 +183,7 @@ EOT;
 
                 if (\is_callable($this->message)) {
                     $callback = $this->message;
-                    $message = (string) $callback($exception, $this->displayExceptions);
+                    $message  = (string)$callback($exception, $this->displayExceptions);
                 } elseif ($this->displayExceptions && $exception instanceof \Exception) {
                     /* @var $exception \Exception */
                     $message = str_replace(

@@ -21,60 +21,26 @@ use Raven_ErrorHandler as RavenErrorHandler;
 class ZendSentry
 {
     /**
+     * @var string $nonce
+     */
+    private static $nonce;
+    /**
      * @var RavenClient $ravenClient
      */
     private $ravenClient;
-
     /**
      * @var RavenErrorHandler $ravenErrorHandler
      */
     private $ravenErrorHandler;
 
     /**
-     * @var string $nonce
-     */
-    private static $nonce;
-
-    /**
-     * @param RavenClient $ravenClient
+     * @param RavenClient       $ravenClient
      * @param RavenErrorHandler $ravenErrorHandler
      */
     public function __construct(RavenClient $ravenClient, RavenErrorHandler $ravenErrorHandler = null)
     {
         $this->ravenClient = $ravenClient;
         $this->setOrLoadRavenErrorHandler($ravenErrorHandler);
-    }
-
-    /**
-     * @param bool   $callExistingHandler
-     * @param int    $errorReporting
-     *
-     * @return ZendSentry
-     */
-    public function registerErrorHandler($callExistingHandler = true, $errorReporting = E_ALL): ZendSentry
-    {
-        $this->ravenErrorHandler->registerErrorHandler($callExistingHandler, $errorReporting);
-        return $this;
-    }
-
-    /**
-     * @param bool $callExistingHandler
-     * @return ZendSentry
-     */
-    public function registerExceptionHandler($callExistingHandler = true): ZendSentry
-    {
-        $this->ravenErrorHandler->registerExceptionHandler($callExistingHandler);
-        return $this;
-    }
-
-    /**
-     * @param int $reservedMemorySize
-     * @return ZendSentry
-     */
-    public function registerShutdownFunction($reservedMemorySize = 10): ZendSentry
-    {
-        $this->ravenErrorHandler->registerShutdownFunction($reservedMemorySize);
-        return $this;
     }
 
     /**
@@ -95,6 +61,40 @@ class ZendSentry
     public static function setCSPNonce(string $nonce)
     {
         self::$nonce = $nonce;
+    }
+
+    /**
+     * @param bool $callExistingHandler
+     * @param int  $errorReporting
+     *
+     * @return ZendSentry
+     */
+    public function registerErrorHandler($callExistingHandler = true, $errorReporting = E_ALL): ZendSentry
+    {
+        $this->ravenErrorHandler->registerErrorHandler($callExistingHandler, $errorReporting);
+        return $this;
+    }
+
+    /**
+     * @param bool $callExistingHandler
+     *
+     * @return ZendSentry
+     */
+    public function registerExceptionHandler($callExistingHandler = true): ZendSentry
+    {
+        $this->ravenErrorHandler->registerExceptionHandler($callExistingHandler);
+        return $this;
+    }
+
+    /**
+     * @param int $reservedMemorySize
+     *
+     * @return ZendSentry
+     */
+    public function registerShutdownFunction($reservedMemorySize = 10): ZendSentry
+    {
+        $this->ravenErrorHandler->registerShutdownFunction($reservedMemorySize);
+        return $this;
     }
 
     /**

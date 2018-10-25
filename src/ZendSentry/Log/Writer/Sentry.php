@@ -20,21 +20,20 @@ use Raven_Client as Raven;
  */
 class Sentry extends AbstractWriter
 {
+    protected $raven;
     /**
      * Translates Zend Framework log levels to Raven log levels.
      */
     private $logLevels = [
-        'DEBUG'     => Raven::DEBUG,
-        'INFO'      => Raven::INFO,
-        'NOTICE'    => Raven::INFO,
-        'WARN'      => Raven::WARNING,
-        'ERR'       => Raven::ERROR,
-        'CRIT'      => Raven::FATAL,
-        'ALERT'     => Raven::FATAL,
-        'EMERG'     => Raven::FATAL,
+        'DEBUG'  => Raven::DEBUG,
+        'INFO'   => Raven::INFO,
+        'NOTICE' => Raven::INFO,
+        'WARN'   => Raven::WARNING,
+        'ERR'    => Raven::ERROR,
+        'CRIT'   => Raven::FATAL,
+        'ALERT'  => Raven::FATAL,
+        'EMERG'  => Raven::FATAL,
     ];
-
-    protected $raven;
 
     /**
      * Sentry constructor.
@@ -52,13 +51,14 @@ class Sentry extends AbstractWriter
      * Write a message to the log
      *
      * @param array $event log data event
+     *
      * @return string $eventID the event ID
      */
     protected function doWrite(array $event): string
     {
-        $extra = [];
+        $extra              = [];
         $extra['timestamp'] = $event['timestamp'];
-        $eventID = $this->raven->captureMessage($event['message'], [], $this->logLevels[$event['priorityName']], false, $event['extra']);
+        $eventID            = $this->raven->captureMessage($event['message'], [], $this->logLevels[$event['priorityName']], false, $event['extra']);
 
         return $eventID;
     }

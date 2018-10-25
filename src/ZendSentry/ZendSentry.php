@@ -21,17 +21,20 @@ use Raven_ErrorHandler as RavenErrorHandler;
 class ZendSentry
 {
     /**
+     * @var string $nonce
+     */
+    private static $nonce;
+    /**
      * @var RavenClient $ravenClient
      */
     private $ravenClient;
-
     /**
      * @var RavenErrorHandler $ravenErrorHandler
      */
     private $ravenErrorHandler;
 
     /**
-     * @param RavenClient $ravenClient
+     * @param RavenClient       $ravenClient
      * @param RavenErrorHandler $ravenErrorHandler
      */
     public function __construct(RavenClient $ravenClient, RavenErrorHandler $ravenErrorHandler = null)
@@ -41,8 +44,28 @@ class ZendSentry
     }
 
     /**
-     * @param bool   $callExistingHandler
-     * @param int    $errorReporting
+     * @param null|RavenErrorHandler $ravenErrorHandler
+     */
+    private function setOrLoadRavenErrorHandler($ravenErrorHandler)
+    {
+        if ($ravenErrorHandler !== null) {
+            $this->ravenErrorHandler = $ravenErrorHandler;
+        } else {
+            $this->ravenErrorHandler = new RavenErrorHandler($this->ravenClient);
+        }
+    }
+
+    /**
+     * @param string $nonce
+     */
+    public static function setCSPNonce(string $nonce)
+    {
+        self::$nonce = $nonce;
+    }
+
+    /**
+     * @param bool $callExistingHandler
+     * @param int  $errorReporting
      *
      * @return ZendSentry
      */
@@ -54,6 +77,7 @@ class ZendSentry
 
     /**
      * @param bool $callExistingHandler
+     *
      * @return ZendSentry
      */
     public function registerExceptionHandler($callExistingHandler = true): ZendSentry
@@ -64,6 +88,7 @@ class ZendSentry
 
     /**
      * @param int $reservedMemorySize
+     *
      * @return ZendSentry
      */
     public function registerShutdownFunction($reservedMemorySize = 10): ZendSentry
@@ -73,14 +98,10 @@ class ZendSentry
     }
 
     /**
-     * @param null|RavenErrorHandler $ravenErrorHandler
+     * @return null|string
      */
-    private function setOrLoadRavenErrorHandler($ravenErrorHandler): void
+    public function getCSPNonce(): ?string
     {
-        if ($ravenErrorHandler !== null) {
-            $this->ravenErrorHandler = $ravenErrorHandler;
-        } else {
-            $this->ravenErrorHandler = new RavenErrorHandler($this->ravenClient);
-        }
+        return self::$nonce;
     }
 }

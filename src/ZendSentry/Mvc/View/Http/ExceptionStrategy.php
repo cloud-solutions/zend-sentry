@@ -30,18 +30,21 @@ class ExceptionStrategy extends AbstractListenerAggregate
 {
     /**
      * Display exceptions?
+     *
      * @var bool
      */
     protected $displayExceptions = false;
 
     /**
      * Default Exception Message
+     *
      * @var string
      */
     protected $defaultExceptionMessage = 'Oh no. Something went wrong, but we have been notified. If you are testing, tell us your eventID: %s';
 
     /**
      * Name of exception template
+     *
      * @var string
      */
     protected $exceptionTemplate = 'error';
@@ -59,27 +62,20 @@ class ExceptionStrategy extends AbstractListenerAggregate
      * Flag: display exceptions in error pages?
      *
      * @param  bool $displayExceptions
+     *
      * @return ExceptionStrategy
      */
     public function setDisplayExceptions($displayExceptions): ExceptionStrategy
     {
-        $this->displayExceptions = (bool) $displayExceptions;
+        $this->displayExceptions = (bool)$displayExceptions;
         return $this;
     }
 
     /**
-     * Should we display exceptions in error pages?
-     *
-     * @return bool
-     */
-    public function displayExceptions(): bool
-    {
-        return $this->displayExceptions;
-    }
-
-    /**
      * Set the default exception message
+     *
      * @param string $defaultExceptionMessage
+     *
      * @return self
      */
     public function setDefaultExceptionMessage($defaultExceptionMessage): self
@@ -89,34 +85,13 @@ class ExceptionStrategy extends AbstractListenerAggregate
     }
 
     /**
-     * Set the exception template
-     *
-     * @param  string $exceptionTemplate
-     * @return ExceptionStrategy
-     */
-    public function setExceptionTemplate($exceptionTemplate): ExceptionStrategy
-    {
-        $this->exceptionTemplate = (string) $exceptionTemplate;
-        return $this;
-    }
-
-    /**
-     * Retrieve the exception template
-     *
-     * @return string
-     */
-    public function getExceptionTemplate(): string
-    {
-        return $this->exceptionTemplate;
-    }
-
-    /**
      * Create an exception view model, and set the HTTP status code
      *
      * @param  MvcEvent $e
+     *
      * @return void
      */
-    public function prepareExceptionViewModel(MvcEvent $e): void
+    public function prepareExceptionViewModel(MvcEvent $e)
     {
         // Do nothing if no error in the event
         $error = $e->getError();
@@ -152,14 +127,15 @@ class ExceptionStrategy extends AbstractListenerAggregate
 
                 $model = new ViewModel(
                     [
-                    'message'            => sprintf($this->defaultExceptionMessage, $eventID->last()),
-                    'exception'          => $e->getParam('exception'),
-                    'display_exceptions' => $this->displayExceptions(),
+                        'message'            => sprintf($this->defaultExceptionMessage, $eventID->last()),
+                        'exception'          => $e->getParam('exception'),
+                        'display_exceptions' => $this->displayExceptions(),
                     ]
                 );
                 $model->setTemplate($this->getExceptionTemplate());
                 $e->setResult($model);
 
+                /** @var HttpResponse $response */
                 $response = $e->getResponse();
                 if (!$response) {
                     $response = new HttpResponse();
@@ -174,5 +150,38 @@ class ExceptionStrategy extends AbstractListenerAggregate
 
                 break;
         }
+    }
+
+    /**
+     * Should we display exceptions in error pages?
+     *
+     * @return bool
+     */
+    public function displayExceptions(): bool
+    {
+        return $this->displayExceptions;
+    }
+
+    /**
+     * Retrieve the exception template
+     *
+     * @return string
+     */
+    public function getExceptionTemplate(): string
+    {
+        return $this->exceptionTemplate;
+    }
+
+    /**
+     * Set the exception template
+     *
+     * @param  string $exceptionTemplate
+     *
+     * @return ExceptionStrategy
+     */
+    public function setExceptionTemplate($exceptionTemplate): ExceptionStrategy
+    {
+        $this->exceptionTemplate = (string)$exceptionTemplate;
+        return $this;
     }
 }

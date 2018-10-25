@@ -82,7 +82,7 @@ class Module
         }
 
         $sentryApiKey = $this->config['zend-sentry']['sentry-api-key'];
-        $ravenClient = new Raven($sentryApiKey, $ravenConfig);
+        $ravenClient  = new Raven($sentryApiKey, $ravenConfig);
 
         // Register the RavenClient as a application wide service
         /** @var ServiceManager $serviceManager */
@@ -90,7 +90,7 @@ class Module
         $serviceManager->setService('raven', $ravenClient);
 
         $this->ravenClient = $ravenClient;
-        $this->zendSentry = new ZendSentry($ravenClient);
+        $this->zendSentry  = new ZendSentry($ravenClient);
 
         // Get the eventManager and set it as a member for convenience
         $this->eventManager = $event->getApplication()->getEventManager();
@@ -130,7 +130,7 @@ class Module
         return [
             'Zend\Loader\StandardAutoloader' => [
                 'namespaces' => [
-                __NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ]
             ]
         ];
@@ -141,7 +141,7 @@ class Module
      */
     public function getConfig()
     {
-        return include __DIR__.'/config/module.config.php';
+        return include __DIR__ . '/config/module.config.php';
     }
 
     /**
@@ -151,29 +151,32 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupBasicLogging(MvcEvent $event ): void
+    protected function setupBasicLogging(MvcEvent $event): void
     {
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();
-        $raven = $this->ravenClient;
-        $logLevels = $this->logLevels;
+        $raven         = $this->ravenClient;
+        $logLevels     = $this->logLevels;
 
-        $sharedManager->attach('*', 'log', function($event) use ($raven, $logLevels) {
+        $sharedManager->attach(
+            '*', 'log', function ($event) use ($raven, $logLevels) {
             /** @var $event MvcEvent */
             if (\is_object($event->getTarget())) {
                 $target = \get_class($event->getTarget());
             } else {
-                $target = (string) $event->getTarget();
+                $target = (string)$event->getTarget();
             }
             $message  = $event->getParam('message', 'No message provided');
-            $priority = (int) $event->getParam('priority', Logger::INFO);
+            $priority = (int)$event->getParam('priority', Logger::INFO);
             $message  = sprintf('%s: %s', $target, $message);
             $tags     = $event->getParam('tags', []);
-            $extra   = $event->getParam('extra', []);
-            $eventID = $raven->captureMessage($message, [], ['tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra]
-);
+            $extra    = $event->getParam('extra', []);
+            $eventID  = $raven->captureMessage(
+                $message, [], ['tags' => $tags, 'level' => $logLevels[$priority], 'extra' => $extra]
+            );
             return $eventID;
-        }, 2);
+        }, 2
+        );
     }
 
     /**
@@ -205,12 +208,14 @@ class Module
         $ravenClient = $this->ravenClient;
 
         // Attach an exception listener for the ZendSentry exception strategy, can be triggered from anywhere else too
-        $this->eventManager->getSharedManager()->attach('*', 'logException', function($event) use ($ravenClient) {
+        $this->eventManager->getSharedManager()->attach(
+            '*', 'logException', function ($event) use ($ravenClient) {
             /** @var $event MvcEvent */
             $exception = $event->getParam('exception');
-            $tags = $event->getParam('tags', []);
+            $tags      = $event->getParam('tags', []);
             return $ravenClient->captureException($exception, ['tags' => $tags]);
-        });
+        }
+        );
     }
 
     /**
@@ -221,14 +226,14 @@ class Module
     protected function setupJavascriptLogging(MvcEvent $event): void
     {
         /** @var HeadScript $headScript */
-        $headScript = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
+        $headScript    = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
         $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
 
         if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
             $headScript->offsetSetFile(0, '//cdn.ravenjs.com/3.26.2/raven.min.js');
         }
 
-        $publicApiKey = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
+        $publicApiKey  = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);
         $ravenjsConfig = json_encode($this->config['zend-sentry']['ravenjs-config']);
 
         $attributes = \is_null($this->zendSentry->getCSPNonce()) ? [] : ['nonce' => $this->zendSentry->getCSPNonce()];
@@ -238,6 +243,7 @@ class Module
 
     /**
      * @param string $key
+     *
      * @return string $publicKey
      */
     private function convertKeyToPublic($key): string
@@ -248,8 +254,8 @@ class Module
         }
         // If legacy DSN with private part is configured...
         // ...find private part
-        $start = strpos($key, ':', 6);
-        $end = strpos($key, '@');
+        $start       = strpos($key, ':', 6);
+        $end         = strpos($key, '@');
         $privatePart = substr($key, $start, $end - $start);
 
         // ... replace it with an empty string

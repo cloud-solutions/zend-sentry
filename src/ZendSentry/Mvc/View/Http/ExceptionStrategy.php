@@ -49,7 +49,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
     /**
      * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'prepareExceptionViewModel']);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'prepareExceptionViewModel']);
@@ -160,6 +160,7 @@ class ExceptionStrategy extends AbstractListenerAggregate
                 $model->setTemplate($this->getExceptionTemplate());
                 $e->setResult($model);
 
+                /** @var HttpResponse $response */
                 $response = $e->getResponse();
                 if (!$response) {
                     $response = new HttpResponse();

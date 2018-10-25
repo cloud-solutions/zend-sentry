@@ -33,14 +33,14 @@ class Module
      * Translates Zend Framework log levels to Raven log levels.
      */
     private $logLevels = [
-        7 => Raven::DEBUG,
-        6 => Raven::INFO,
-        5 => Raven::INFO,
-        4 => Raven::WARNING,
-        3 => Raven::ERROR,
-        2 => Raven::FATAL,
-        1 => Raven::FATAL,
         0 => Raven::FATAL,
+        1 => Raven::FATAL,
+        2 => Raven::FATAL,
+        3 => Raven::ERROR,
+        4 => Raven::WARNING,
+        5 => Raven::INFO,
+        6 => Raven::INFO,
+        7 => Raven::DEBUG,
     ];
 
     /**
@@ -151,7 +151,7 @@ class Module
      *
      * @param MvcEvent $event
      */
-    protected function setupBasicLogging(MvcEvent $event): void
+    protected function setupBasicLogging(MvcEvent $event ): void
     {
         // Get the shared event manager and attach a logging listener for the log event on application level
         $sharedManager = $this->eventManager->getSharedManager();

@@ -54,7 +54,7 @@ class Sentry extends AbstractWriter
      * @param array $event log data event
      * @return string $eventID the event ID
      */
-    protected function doWrite(array $event)
+    protected function doWrite(array $event): string
     {
         $extra = [];
         $extra['timestamp'] = $event['timestamp'];

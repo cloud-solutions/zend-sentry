@@ -19,7 +19,7 @@ class ModuleTest extends TestCase
         $this->module = new ZendSentryModule();
     }
 
-    public function testDefaultModuleConfig()
+    public function testDefaultModuleConfig(): void
     {
         $expectedConfig = [];
 
@@ -28,7 +28,7 @@ class ModuleTest extends TestCase
         $this->assertEquals($expectedConfig, $actualConfig);
     }
 
-    public function testAutoloaderConfig()
+    public function testAutoloaderConfig(): void
     {
         $expectedConfig = [
             StandardAutoloader::class => [

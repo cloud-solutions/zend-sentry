@@ -4,7 +4,7 @@
     "keywords": ["log", "logging", "sentry", "raven", "zend-framework"],
     "homepage": "https://github.com/cloud-solutions/zend-sentry",
     "type": "library",
-    "version": "3.5.0",
+    "version": "3.6.0",
     "license": "MIT",
     "authors": [
         {

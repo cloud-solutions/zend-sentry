@@ -4,9 +4,10 @@ A Zend Framework 3 module that lets you log exceptions, errors or whatever you w
 
 ZendSentry is released under the MIT License.
 
-The current version of ZendSentry for ZF3 is `3.5.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series. **NB!** We are not supporting the old branches anymore.
+The current version of ZendSentry for ZF3 is `3.6.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series. **NB!** We are not supporting the old branches anymore.
 
 # Recent Changes
+- 3.6.0: Add static setter to inject CSP nonce (temporary solution)
 - 3.5.0: Add support for new Sentry DSN, deprecate old DSN for later removal
 - 3.4.0: Add possibility to switch off usage of raven-js CDN
 - 3.3.0: Add possibility to pass config options to ravenjs
@@ -23,17 +24,18 @@ easy to setup and does a lot of things out-of-the-box.
 
 Features and capabilities:
 
-* log uncatched PHP exceptions to Sentry automagically
-* log PHP errors to Sentry automagically
-* log uncatched Javascript errors to Sentry automagically
-* capture Exceptions to Sentry by triggering an event listener
-* log anything you like to Sentry by triggering an event listener
-* ZF ExceptionStrategy for Http as well as the CLI (automatic selection)
-* log actions return the Sentry event_id
-* Raven is registered as a Service
-* override Raven config defaults
-* pass config options to ravenjs
-* configure error messages
+* log uncatched PHP exceptions to Sentry automagically.
+* log PHP errors to Sentry automagically.
+* log uncatched Javascript errors to Sentry automagically.
+* capture Exceptions to Sentry by triggering an event listener.
+* log anything you like to Sentry by triggering an event listener.
+* ZF ExceptionStrategy for Http as well as the CLI (automatic selection).
+* log actions return the Sentry event_id.
+* Raven is registered as a Service.
+* override Raven config defaults.
+* pass config options to ravenjs.
+* configure error messages.
+* inject a Content-Security-Policy` nonce for the inline script rendering. Makes it possible for you to create a CSP without `unsafe-inline` as script source.
 
 # Installation
 
@@ -42,7 +44,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.5.0"
+            "cloud-solutions/zend-sentry": "3.6.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.
@@ -146,6 +148,25 @@ You might want to do something like this e.g. in your `AbstractActionController:
         );
     }
 
+# Injecting a CSP nonce (NB! temporary solution)
+
+If you've already implemented a Content Security Policy in your app, chances are you're using a nonce for dynamic inline javascript. 
+If so, you can now inject your nonce into ZendSentry:
+
+    ZendSentry::setCSPNonce(ContentSecurityPolicy::getNonce());
+    
+... where `ContentSecurityPolicy` is your implementation of that http header.
+
+If you inject a nonce, ZendSentry will add it as an attribute to the Raven loading script. Example:
+
+    <script type="text/javascript" nonce="qlQa7LCu2ZLoVZzpn5s9OJNq7QE=">
+        //<![CDATA[
+        if (typeof Raven !== 'undefined') Raven.config('https://yourpublickey@sentry.io/5374', []).install()
+        //]]>
+    </script>
+    
+Please note that we regard this as a temporary solution. It would be much better for ZendSentry to define its own CSP header.
+Right now Zend Framework is not handling multiple CSP headers the right way (see also [this issue](https://github.com/zendframework/zend-http/issues/159) in `zend-http`).
 
 # Configuration options
 

@@ -4,9 +4,10 @@ A Zend Framework 3 module that lets you log exceptions, errors or whatever you w
 
 ZendSentry is released under the MIT License.
 
-The current version of ZendSentry for ZF3 is `3.6.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series. **NB!** We are not supporting the old branches anymore.
+The current version of ZendSentry for ZF3 is `3.7.0`. It supports Zend Framework >= 3.0. For other versions see tags in the 1.* series as well as 2.* series. **NB!** We are not supporting the old branches anymore.
 
 # Recent Changes
+- 3.7.0: Add option to configure used Ravenjs version, upgrade Ravenjs to `3.27.0`
 - 3.6.0: Add static setter to inject CSP nonce (temporary solution)
 - 3.5.0: Add support for new Sentry DSN, deprecate old DSN for later removal
 - 3.4.0: Add possibility to switch off usage of raven-js CDN
@@ -44,7 +45,7 @@ In your project's `composer.json` use:
 
     {   
         "require": {
-            "cloud-solutions/zend-sentry": "3.6.0"
+            "cloud-solutions/zend-sentry": "3.7.0"
     }
     
 Run `php composer.phar update` to download it into your vendor folder and setup autoloading.

@@ -5,16 +5,16 @@
  * If you have a ./config/autoload/ directory set up for your project, you can
  * drop this config file in it, remove the .dist extension add your configuration details.
  */
-$settings = array(
+$settings = [
     /**
      * Your Sentry API key
      */
     'sentry-api-key' => '',
-);
+];
 
 /**
  * You do not need to edit below this line
  */
-return array(
+return [
     'zend-sentry' => $settings,
-);
+];

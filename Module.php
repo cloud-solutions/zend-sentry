@@ -29,7 +29,7 @@ use Zend\Log\Logger;
  */
 class Module
 {
-    public const RAVENJS_VERSION = '3.27.0';
+    const RAVENJS_VERSION = '3.27.0';
 
     /**
      * Translates Zend Framework log levels to Raven log levels.

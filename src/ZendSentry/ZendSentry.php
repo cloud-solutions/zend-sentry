@@ -100,7 +100,7 @@ class ZendSentry
     /**
      * @return null|string
      */
-    public function getCSPNonce(): ?string
+    public function getCSPNonce()
     {
         return self::$nonce;
     }

@@ -5,7 +5,7 @@
  * If you have a ./config/autoload/ directory set up for your project, you can
  * drop this config file in it, remove the .dist extension add your configuration details.
  */
-$settings = array(
+$settings = [
     /**
      * Turn ZendSentry off or on as a whole package
      */
@@ -74,21 +74,27 @@ $settings = array(
     'use-ravenjs-cdn' => true,
 
     /**
+     * Change the raven-js version loaded via CDN if you need to downgrade or we're lagging behind with updating.
+     * No BC breaks, ZendSentry will set the version if your config is missing the key.
+     */
+    'ravenjs-version' => '3.27.0',
+
+    /**
      * Set raven config options for the getsentry/sentry-php package here.
      * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */
-    'raven-config' => array(),
+    'raven-config' => [],
 
     /**
      * Set ravenjs config options for the getsentry/raven-js package here.
      * This will be json encoded and passed to raven-js when doing Raven.install().
      */
-    'ravenjs-config' => array(),
-);
+    'ravenjs-config' => [],
+];
 
 /**
  * You do not need to edit below this line
  */
-return array(
+return [
     'zend-sentry' => $settings,
-);
+];

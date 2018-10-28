@@ -238,6 +238,12 @@ Just for the record, a copy of the actual global configuration options:
      * If you set this to false you'll need to make sure to load raven-js some other way.
      */
     'use-ravenjs-cdn' => true,
+    
+    /**
+     * Change the raven-js version loaded via CDN if you need to downgrade or we're lagging behind with updating.
+     * No BC breaks, ZendSentry will set the version if your config is missing the key.
+     */
+    'ravenjs-version' => '3.27.0',
 
     /**
      * Set raven config options for the getsentry/sentry-php package here.

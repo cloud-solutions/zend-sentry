@@ -29,6 +29,8 @@ use Zend\Log\Logger;
  */
 class Module
 {
+    public const RAVENJS_VERSION = '3.27.0';
+
     /**
      * Translates Zend Framework log levels to Raven log levels.
      */
@@ -232,10 +234,13 @@ class Module
     {
         /** @var HeadScript $headScript */
         $headScript    = $event->getApplication()->getServiceManager()->get('ViewHelperManager')->get('headscript');
-        $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'];
 
-        if (!isset($useRavenjsCDN) || $useRavenjsCDN) {
-            $headScript->offsetSetFile(0, '//cdn.ravenjs.com/3.26.2/raven.min.js');
+        $useRavenjsCDN = $this->config['zend-sentry']['use-ravenjs-cdn'] ?? false;
+
+        if ($useRavenjsCDN) {
+            $ravenjsVersion = $this->config['zend-sentry']['ravenjs-version'] ?? self::RAVENJS_VERSION;
+            $cdnUri = sprintf('//cdn.ravenjs.com/%s/raven.min.js', $ravenjsVersion);
+            $headScript->offsetSetFile(0, $cdnUri);
         }
 
         $publicApiKey  = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);

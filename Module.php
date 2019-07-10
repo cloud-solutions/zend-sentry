@@ -241,6 +241,12 @@ class Module
             $ravenjsVersion = $this->config['zend-sentry']['ravenjs-version'] ?? self::RAVENJS_VERSION;
             $cdnUri = sprintf('//cdn.ravenjs.com/%s/raven.min.js', $ravenjsVersion);
             $headScript->offsetSetFile(0, $cdnUri);
+        } else {
+            $ravenjsSource = $this->config['zend-sentry']['use-ravenjs-cdn'] ?? false;
+
+            if ($ravenjsSource) {
+                $headScript->offsetSetFile(0, $ravenjsSource);
+            }
         }
 
         $publicApiKey  = $this->convertKeyToPublic($this->config['zend-sentry']['sentry-api-key']);

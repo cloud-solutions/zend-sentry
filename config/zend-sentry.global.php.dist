@@ -51,12 +51,12 @@ $settings = [
      * Should exceptions be displayed on the screen?
      */
     'display-exceptions' => false,
-    
+
     /**
      * If Exceptions are displayed on screen, this is the default message
      */
     'default-exception-message' => 'Oh no. Something went wrong, but we have been notified. If you are testing, tell us your eventID: %s',
-    
+
     /**
      * If Exceptions are displayed on screen, this is the default message in php cli mode
      */
@@ -78,6 +78,11 @@ $settings = [
      * No BC breaks, ZendSentry will set the version if your config is missing the key.
      */
     'ravenjs-version' => '3.27.0',
+
+    /**
+     * If you do not wish to use CDN to load raven-js you can specify path to raven-js to use
+     */
+    'ravenjs-source' => '',
 
     /**
      * Set raven config options for the getsentry/sentry-php package here.

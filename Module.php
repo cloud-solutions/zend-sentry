@@ -242,7 +242,7 @@ class Module
             $cdnUri = sprintf('//cdn.ravenjs.com/%s/raven.min.js', $ravenjsVersion);
             $headScript->offsetSetFile(0, $cdnUri);
         } else {
-            $ravenjsSource = $this->config['zend-sentry']['use-ravenjs-cdn'] ?? false;
+            $ravenjsSource = $this->config['zend-sentry']['ravenjs-source'] ?? false;
 
             if ($ravenjsSource) {
                 $headScript->offsetSetFile(0, $ravenjsSource);

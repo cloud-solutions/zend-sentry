@@ -80,9 +80,10 @@ $settings = [
     'ravenjs-version' => '3.27.0',
 
     /**
-     * If you do not wish to use CDN to load raven-js you can specify path to raven-js to use
+     * Alternatively, if not using CDN, you can specify a path or url to raven-js.
+     * Set to empty to disable but make sure to load raven-js some other way.
      */
-    'ravenjs-source' => '',
+    'ravenjs-source' => '/js/raven.min.js',
 
     /**
      * Set raven config options for the getsentry/sentry-php package here.

@@ -247,6 +247,12 @@ Just for the record, a copy of the actual global configuration options:
     'ravenjs-version' => '3.27.0',
 
     /**
+     * Alternatively, if not using CDN, you can specify a path or url to raven-js.
+     * Set to empty to disable but make sure to load raven-js some other way.
+     */
+    'ravenjs-source' => '/js/raven.min.js',
+
+    /**
      * Set raven config options for the getsentry/sentry-php package here.
      * Raven has sensible defaults set in Raven_Client, if you need to override them, this is where you can do it.
      */

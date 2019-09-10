@@ -1,3 +1,5 @@
+# IMPORANT NOTICE (September 2019)! We're planning to deprecate this package. Usage comes with the risk of it being abondoned.
+
 A Zend Framework 3 module that lets you log exceptions, errors or whatever you wish to the Sentry.io service.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cloud-solutions/zend-sentry/?branch=master) [![Build Status](https://travis-ci.org/cloud-solutions/zend-sentry.svg?branch=master)](https://travis-ci.org/cloud-solutions/zend-sentry)

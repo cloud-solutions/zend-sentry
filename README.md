@@ -1,4 +1,6 @@
-# IMPORANT NOTICE (September 2019)! We're planning to deprecate this package. Usage comes with the risk of it being abondoned.
+# IMPORANT NOTICE (September 2019)! We are abandoning/deprecating this package. We will NOT be updating this package to the new Sentry SDK.
+
+## With the new Sentry SDKs it has become much easier to integrate directly with any project. This package creates way too much boilerplate and most of it's code is not needed anymore. As for the JS integration it's much better to install the JS SDK via yarn or npm anyways so you can properly package and automate that stuff too.
 
 A Zend Framework 3 module that lets you log exceptions, errors or whatever you wish to the Sentry.io service.
 
